@@ -1,7 +1,8 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import { MainLogoImg } from "../../utils";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useEffect, useState } from "react";
 
 const Nav = styled(motion.div)`
   display: flex;
@@ -90,22 +91,49 @@ const SearchArea = styled.div`
   margin-left: 8.2rem;
   input {
     position: absolute;
+    bottom: 0;
     width: 100%;
-    height: 34px;
+    height: 3.4rem;
     border: 2px solid #d9d9d9;
-    border-radius: 21px;
-    font-size: 14px;
-    padding: 0 8px 17px 0;
+    border-radius: 2.1rem;
+    font-size: 1.4rem;
+    line-height: 3.4rem;
+    padding: 0 4rem 0 2rem;
     color: #222;
-    vertical-align: middle;
+    outline: none;
   }
   .searchIcon {
     position: absolute;
-    top: 0.1rem;
+    top: 0.7rem;
     right: 1.1rem;
     width: 3rem;
     height: 3rem;
   }
+`;
+const KeywordRolling = styled.div`
+  position: absolute;
+  bottom: 0;
+  height: 3.4rem;
+  /* overflow: hidden; */
+  ul {
+    li {
+    }
+  }
+`;
+
+const RollingList = styled(motion.li)`
+  position: relative;
+`;
+
+const RollingSpan = styled(motion.span)`
+  display: block;
+  padding: 0 4rem 0 2rem;
+  color: #d5d4d4;
+  line-height: 3.5rem;
+  font-size: 1.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const RHeader = styled.div`
@@ -142,17 +170,46 @@ const CategoryArea = styled(HeaderArea)`
       line-height: 2.4rem;
     }
     li ~ li {
-      margin-left: 1.5rem;
+      margin-left: 0.75rem;
+      padding-left: 0.75rem;
     }
   }
   ul:last-child {
     li:not(:last-child):after {
       content: "/";
+      position: absolute;
+      right: -1rem;
+      font-size: 1.6rem;
     }
   }
 `;
 
+const rollingVariants = {
+  base: {
+    top: 0,
+  },
+  animate: (top: number) => {
+    return {
+      top: top,
+    };
+  },
+};
+
 function Header() {
+  const [rollingTop, setRollingTop] = useState(0);
+  useEffect(() => {
+    setInterval(function () {
+      setRollingTop((prev) => {
+        if (prev >= 102) {
+          return 0;
+        } else {
+          return prev + 34;
+        }
+      });
+    }, 2000);
+  }, [setRollingTop]);
+  console.log(rollingTop);
+
   return (
     <Nav>
       <Row bgColor={"#000"} color={"#fff"}>
@@ -183,6 +240,40 @@ function Header() {
             <SearchArea>
               <input type="text"></input>
               <AiOutlineSearch className="searchIcon" />
+              <KeywordRolling>
+                <AnimatePresence mode="wait" custom={rollingTop}>
+                  <ul>
+                    <RollingList
+                      custom={rollingTop}
+                      variants={rollingVariants}
+                      initial="base"
+                      animate="top"
+                    >
+                      <RollingSpan>
+                        BC카드 마이태그하면 5천원 결제일 할인!
+                      </RollingSpan>
+                    </RollingList>
+                    <RollingList
+                      custom={rollingTop}
+                      variants={rollingVariants}
+                      initial="base"
+                      animate="top"
+                    >
+                      <RollingSpan>
+                        메리 BIG 크리스마스~스페셜 쿠폰팩
+                      </RollingSpan>
+                    </RollingList>
+                    <RollingList
+                      custom={rollingTop}
+                      variants={rollingVariants}
+                      initial="base"
+                      animate="top"
+                    >
+                      <RollingSpan>함께여서 따뜻한 그린 홀리데이!</RollingSpan>
+                    </RollingList>
+                  </ul>
+                </AnimatePresence>
+              </KeywordRolling>
             </SearchArea>
           </LHeader>
           <RHeader>

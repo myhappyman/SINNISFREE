@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { DepthArrow } from "../../../utils";
 import CategoryDetails from "./CategoryDetail";
 import { CategoryItems } from "./CategoryItems";
 
@@ -53,9 +54,26 @@ const DetailArea = styled(motion.div)`
 const CategoryLi = styled(motion.li)`
   font-size: 1.6rem;
   line-height: 2.4rem;
+  font-weight: bold;
   & ~ & {
     margin-left: 0.75rem;
     padding-left: 0.75rem;
+  }
+  a {
+    position: relative;
+  }
+  a:hover {
+    color: #167a68;
+  }
+  a:hover:after {
+    content: "";
+    width: 1rem;
+    height: 0.9rem;
+    position: absolute;
+    top: 3rem;
+    left: 43%;
+    background: url(${DepthArrow()}) no-repeat;
+    z-index: 11;
   }
 `;
 
@@ -70,8 +88,7 @@ const CategoryDetailVariants = {
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.5,
-      delay: 0.3,
+      duration: 0.2,
     },
     transitionEnd: {
       display: "none",
@@ -81,11 +98,31 @@ const CategoryDetailVariants = {
 
 function Category() {
   const categoryData = CategoryItems;
+  const [onMouseIn, setMouseIn] = useState<boolean[]>();
+  useEffect(() => {
+    categoryData.forEach((c) => {
+      setMouseIn((prev) => [...(prev || []), false]);
+    });
+  }, [categoryData]);
 
-  const [onCategoryMouseIn, setOnCategoryMouseIn] = useState(false);
-
-  const mouseEnter = () => setOnCategoryMouseIn(true);
-  const mouseLeave = () => setOnCategoryMouseIn(false);
+  const mouseEnter = (index: number) => {
+    setMouseIn((prev) => {
+      return [
+        ...(prev || []).slice(0, index),
+        true,
+        ...(prev || []).slice(index + 1),
+      ];
+    });
+  };
+  const mouseLeave = (index: number) => {
+    setMouseIn((prev) => {
+      return [
+        ...(prev || []).slice(0, index),
+        false,
+        ...(prev || []).slice(index + 1),
+      ];
+    });
+  };
 
   return (
     <CategoryRow bgColor={"#fff"} color={"#000"}>
@@ -94,14 +131,14 @@ function Category() {
           {categoryData &&
             categoryData.map((category, idx) => (
               <CategoryLi
-                key={`li${idx}`}
-                onHoverStart={mouseEnter}
-                onHoverEnd={mouseLeave}
+                key={idx}
+                onHoverStart={() => mouseEnter(idx)}
+                onHoverEnd={() => mouseLeave(idx)}
               >
                 <Link to="#">{category.category}</Link>
                 <DetailArea
                   initial="exit"
-                  animate={onCategoryMouseIn ? "enter" : "exit"}
+                  animate={onMouseIn && onMouseIn[idx] ? "enter" : "exit"}
                   variants={CategoryDetailVariants}
                 >
                   <CategoryDetails data={category.detail} />

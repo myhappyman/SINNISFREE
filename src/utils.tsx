@@ -15,3 +15,5 @@ export const FooterLogoImg = () => require("./assets/imgs/footerLogo.png");
  * @returns
  */
 export const AwardFooterImg = () => require("./assets/imgs/awardsFooter.png");
+
+export const DepthArrow = () => require("./assets/imgs/depth_arr.png");

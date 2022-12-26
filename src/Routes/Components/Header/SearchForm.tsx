@@ -80,9 +80,9 @@ const RollingList = styled(motion.li)`
 const RHeader = styled.div`
   width: 60.8rem;
   ul {
-    width: 100%;
     display: flex;
     justify-content: end;
+    width: 100%;
     li {
       float: left;
       font-size: 1.8rem;

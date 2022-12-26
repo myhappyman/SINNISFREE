@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { Link } from "react-router-dom";
 import SearchForm from "./SearchForm";
+import Category from "./Category";
 
 const Nav = styled(motion.div)`
   display: flex;
@@ -73,67 +74,6 @@ const UtilMenu = styled.ul`
   }
 `;
 
-const CategoryRow = styled(Row)`
-  border-bottom: 1px solid #a6a6a6;
-  display: flex;
-  flex-direction: column;
-`;
-const CategoryArea = styled(HeaderArea)`
-  display: flex;
-  justify-content: space-between;
-  ul {
-    display: flex;
-    align-items: center;
-    height: 5.4rem;
-    li {
-      position: relative;
-      font-size: 1.6rem;
-      line-height: 2.4rem;
-    }
-    li ~ li {
-      margin-left: 0.75rem;
-      padding-left: 0.75rem;
-    }
-  }
-  ul:last-child {
-    li:not(:last-child):after {
-      content: "/";
-      position: absolute;
-      right: -1rem;
-      font-size: 1.6rem;
-    }
-  }
-`;
-
-const CategoryDetail = styled.div`
-  position: absolute;
-  top: 5.6rem;
-  left: 0;
-  min-width: 128rem;
-  height: 24rem;
-  padding: 3.1rem 4.1rem 2rem 4.1rem;
-  border: 1px solid #b6b6b6;
-  background-color: #fff;
-  outline: 1px solid red;
-  ul {
-    float: left;
-    li {
-      float: left;
-      width: 14.9rem;
-      a {
-        display: block;
-        margin-bottom: 1.1rem;
-        font-size: 1.4rem;
-        color: #888;
-      }
-      a:hover {
-        color: #333;
-        font-weight: bold;
-      }
-    }
-  }
-`;
-
 function Header() {
   return (
     <Nav>
@@ -159,54 +99,7 @@ function Header() {
       <Row bgColor={"#fff"} color={"#000"}>
         <SearchForm />
       </Row>
-      <CategoryRow bgColor={"#fff"} color={"#000"}>
-        <CategoryArea padding={"0"}>
-          <ul>
-            <li>
-              <Link to="#">스킨케어</Link>
-              <CategoryDetail>
-                <ul>
-                  <li>
-                    <Link to="#">스킨</Link>
-                    <Link to="#">로션</Link>
-                    <Link to="#">에센스/세럼</Link>
-                    <Link to="#">페이스 오일</Link>
-                    <Link to="#">마사지</Link>
-                  </li>
-                  <li>
-                    <Link to="#">크림/젤</Link>
-                    <Link to="#">립 케어</Link>
-                    <Link to="#">아이 케어</Link>
-                    <Link to="#">미스트</Link>
-                    <Link to="#">기획 세트</Link>
-                  </li>
-                  <li>
-                    <Link to="#">기타</Link>
-                    <Link to="#">대용량</Link>
-                    <Link to="#">앰플 BEST 3</Link>
-                  </li>
-                </ul>
-              </CategoryDetail>
-            </li>
-            <li>선케어</li>
-            <li>팩/마스크</li>
-            <li>페이스메이크업</li>
-            <li>컬러메이크업</li>
-            <li>클렌징</li>
-            <li>남성</li>
-            <li>바디</li>
-            <li>헤어</li>
-            <li>기획 세트</li>
-            <li>네일</li>
-            <li>방향</li>
-            <li>미용소품</li>
-          </ul>
-          <ul>
-            <li>라인별</li>
-            <li>고민별</li>
-          </ul>
-        </CategoryArea>
-      </CategoryRow>
+      <Category />
     </Nav>
   );
 }

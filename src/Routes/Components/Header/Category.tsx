@@ -29,6 +29,9 @@ const CategoryUl = styled.ul`
   align-items: center;
   position: relative;
   height: 5.4rem;
+  &:last-child > li {
+    position: relative;
+  }
   &:last-child > li:not(:last-child):after {
     content: "/";
     position: absolute;
@@ -59,13 +62,13 @@ const CategoryLi = styled(motion.li)`
     margin-left: 0.75rem;
     padding-left: 0.75rem;
   }
-  a {
-    position: relative;
-  }
-  a:hover {
+  &:hover .lnk {
     color: #167a68;
   }
-  a:hover:after {
+  .lnk {
+    position: relative;
+  }
+  &:hover .lnk:after {
     content: "";
     width: 1rem;
     height: 0.9rem;
@@ -134,8 +137,12 @@ function Category() {
                 key={idx}
                 onHoverStart={() => mouseEnter(idx)}
                 onHoverEnd={() => mouseLeave(idx)}
+                // onMouseEnter={() => mouseEnter(idx)}
+                // onMouseLeave={() => mouseLeave(idx)}
               >
-                <Link to="#">{category.category}</Link>
+                <Link className="lnk" to="#">
+                  {category.category}
+                </Link>
                 <DetailArea
                   initial="exit"
                   animate={onMouseIn && onMouseIn[idx] ? "enter" : "exit"}

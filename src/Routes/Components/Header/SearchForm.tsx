@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -52,10 +52,10 @@ const SearchArea = styled.div`
     z-index: 11;
   }
 `;
-const KeywordRolling = styled.div<{ visible: boolean }>`
+const KeywordRolling = styled.div<{ searchMode: boolean }>`
+  display: ${(props) => (props.searchMode ? "none" : "block")};
   position: absolute;
   bottom: 0;
-  display: ${(props) => (props.visible === true ? "none" : "block")};
   height: 3.4rem;
   overflow: hidden;
   z-index: 10;
@@ -117,6 +117,10 @@ const rollingVariants = {
   },
 };
 
+interface IForm {
+  keyword: string;
+}
+
 function SearchForm() {
   const searchKeywordList = [
     "BC카드 마이태그하면 5천원 결제일 할인!",
@@ -134,7 +138,28 @@ function SearchForm() {
   }, [setRolling, searchKeywordList.length]);
 
   const [searchMode, setSearchMode] = useState(false);
-  const { register } = useForm();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { register, handleSubmit } = useForm<IForm>({
+    defaultValues: {
+      keyword: "",
+    },
+  });
+  const { ref, ...rest } = register("keyword", {
+    required: "검색어를 입력하세요.",
+    minLength: 2,
+    onBlur: () => {
+      if (!inputRef.current?.value) {
+        setSearchMode(false);
+      } else {
+        setSearchMode(true);
+      }
+    },
+  });
+  console.log();
+  const changeSearchMode = () => {
+    inputRef.current?.focus();
+    setSearchMode(true);
+  };
 
   return (
     <SearchHeader padding={"2.3rem 0 0 0"}>
@@ -144,18 +169,27 @@ function SearchForm() {
         </LogoArea>
         <SearchArea>
           <input
-            {...(register("searchInput"),
-            {
-              onFocus: () => {
-                setSearchMode(true);
-              },
-              onBlur: () => {
-                setSearchMode(false);
-              },
-            })}
+            {...rest}
+            name="keyword"
+            ref={(e) => {
+              if (e) {
+                ref(e);
+                inputRef.current = e;
+              }
+            }}
+            onFocus={() => setSearchMode(true)}
+            // {...(register("searchInput"),
+            // {
+            //   onFocus: () => {
+            //     setSearchMode(true);
+            //   },
+            //   onBlur: () => {
+            //     setSearchMode(false);
+            //   },
+            // })}
           />
           <AiOutlineSearch className="searchIcon" />
-          <KeywordRolling visible={searchMode}>
+          <KeywordRolling searchMode={searchMode}>
             <ul>
               <AnimatePresence mode="wait">
                 <RollingList
@@ -164,6 +198,7 @@ function SearchForm() {
                   animate="center"
                   exit="exit"
                   key={rolling}
+                  onClick={changeSearchMode}
                 >
                   {searchKeywordList[rolling]}
                 </RollingList>

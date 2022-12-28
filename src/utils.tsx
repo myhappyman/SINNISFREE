@@ -28,4 +28,7 @@ export const DepthArrow = () => require("./assets/imgs/depth_arr.png");
  * @returns
  */
 export const BannerImage = (num: number) =>
-  require(`./assets/imgs/banner_${num}.jpg`);
+  require(`./assets/imgs/banner/banner_${num}.jpg`);
+
+export const NowShoppingImg = (imgFileName: string) =>
+  require(`./assets/imgs/nowShopping/${imgFileName}`);

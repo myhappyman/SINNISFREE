@@ -58,8 +58,8 @@ export function nowShoppingChanceDatas() {
       },
       star: 4.8,
       starPointNumberOfPeople: 31989,
-      frontImg: "nsdIF_3.jpg",
-      backImg: "nsdIB_3.jpg",
+      frontImg: "nsdIF_4.jpg",
+      backImg: "nsdIF_4.jpg",
     },
     {
       name: "(홀리데이)그린티씨드크림[대용량] 100ml + 2023 포스터 캘린더",
@@ -70,8 +70,8 @@ export function nowShoppingChanceDatas() {
       },
       star: 4.9,
       starPointNumberOfPeople: 13550,
-      frontImg: "nsdIF_3.jpg",
-      backImg: "nsdIB_3.jpg",
+      frontImg: "nsdIF_5.jpg",
+      backImg: "nsdIF_5.jpg",
     },
     {
       name: "(홀리데이)블랙티 앰플[대용량] 50ml + 2023 포스터 캘린더",
@@ -82,8 +82,8 @@ export function nowShoppingChanceDatas() {
       },
       star: 4.9,
       starPointNumberOfPeople: 40547,
-      frontImg: "nsdIF_3.jpg",
-      backImg: "nsdIB_3.jpg",
+      frontImg: "nsdIF_6.jpg",
+      backImg: "nsdIF_6.jpg",
     },
     {
       name: "(홀리데이) 2023 포스터 캘린더",
@@ -94,8 +94,8 @@ export function nowShoppingChanceDatas() {
       },
       star: 5.0,
       starPointNumberOfPeople: 1,
-      frontImg: "nsdIF_3.jpg",
-      backImg: "nsdIB_3.jpg",
+      frontImg: "nsdIF_7.jpg",
+      backImg: "nsdIB_7.jpg",
     },
     {
       name: "(홀리데이) 블랙티 유스 인핸싱 앰플 대용량",
@@ -106,8 +106,8 @@ export function nowShoppingChanceDatas() {
       },
       star: 4.9,
       starPointNumberOfPeople: 40547,
-      frontImg: "nsdIF_3.jpg",
-      backImg: "nsdIB_3.jpg",
+      frontImg: "nsdIF_8.jpg",
+      backImg: "nsdIF_8.jpg",
     },
   ];
 }

@@ -35,6 +35,8 @@ const SlideBtn = styled.div<{ mouseHover: boolean }>`
   background: rgba(0, 0, 0, 0.3);
   font-size: 1.4rem;
   color: #fff;
+  cursor: pointer;
+
   &:hover {
     background: rgba(0, 0, 0, 0.7);
   }

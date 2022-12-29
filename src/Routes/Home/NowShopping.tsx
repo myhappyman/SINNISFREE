@@ -7,10 +7,7 @@ import {
   AiOutlineCreditCard,
   AiFillStar,
 } from "react-icons/ai";
-import {
-  INowShoppingChanceDatas,
-  nowShoppingChanceDatas,
-} from "../Datas/NowShoppingDatas";
+import { nowShoppingChanceDatas } from "../Datas/NowShoppingDatas";
 import { NowShoppingImg } from "../../utils";
 
 const Wrapper = styled.div`
@@ -41,9 +38,53 @@ const GridArea = styled.div`
 
 const Item = styled.div`
   height: 52rem;
+  border-radius: 0.5rem;
+  &:hover {
+    outline: 1px solid #118168;
+  }
 `;
 
-const Img = styled.div``;
+const Imgs = styled.div`
+  position: relative;
+  &:hover {
+    .front {
+      opacity: 0;
+    }
+    .back {
+      opacity: 1;
+      animation: transformAnimation 0.3s;
+    }
+  }
+
+  /**
+   * 처음에 뒷 배경 이미지 자체를 180 반전시킨 이미지로 시작해서
+   * 원래 이미지 모양인 0deg로 돌려준다. 
+   */
+  @keyframes transformAnimation {
+    0% {
+      transform: rotateY(180deg);
+    }
+    100% {
+      transform: rotateY(0deg);
+    }
+  }
+`;
+
+const Img = styled.img`
+  display: block;
+  width: 100%;
+  border-radius: 0.5rem 0.5rem 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &.front {
+    opacity: 1;
+  }
+  &.back {
+    opacity: 0;
+  }
+`;
+
 const ImgUtil = styled.div`
   display: none;
   position: absolute;
@@ -65,7 +106,8 @@ const ImgUtil = styled.div`
 const ImgArea = styled.div`
   position: relative;
   height: 31.2rem;
-  background: #ccc;
+  background: #fafafa;
+  border-radius: 0.5rem 0.5rem 0 0;
 
   //child hover는 이런식으로 해준다. //대신 child가 먼저 선언되어있어야함.
   &:hover > ${ImgUtil} {
@@ -122,12 +164,18 @@ function NowShopping() {
               return (
                 <Item key={idx}>
                   <ImgArea>
-                    <Img>
-                      <img
+                    <Imgs>
+                      <Img
+                        className="front"
                         src={NowShoppingImg(shopping.frontImg || "")}
                         alt={shopping.name}
                       />
-                    </Img>
+                      <Img
+                        className="back"
+                        src={NowShoppingImg(shopping.backImg || "")}
+                        alt={shopping.name}
+                      />
+                    </Imgs>
                     <ImgUtil>
                       <AiOutlineFileAdd className="icon" />
                       <AiOutlineHeart className="icon" />

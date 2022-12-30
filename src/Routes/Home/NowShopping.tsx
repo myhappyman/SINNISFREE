@@ -6,18 +6,27 @@ import {
   AiOutlineShoppingCart,
   AiOutlineCreditCard,
   AiFillStar,
+  AiOutlineLeft,
+  AiOutlineRight,
 } from "react-icons/ai";
-import { nowShoppingChanceDatas } from "../Datas/NowShoppingDatas";
+import data from "../Datas/NowShoppingDatas";
 import { NowShoppingImg } from "../../utils";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Wrapper = styled.div`
-  width: 100%;
+  position: relative;
+  min-width: 128rem;
+  max-width: 192rem;
   background-color: #fff;
 `;
+
 const Inner = styled.div`
+  position: relative;
   width: 128rem;
   margin: 9rem auto 7.6rem auto;
 `;
+
 const Title = styled.div`
   display: flex;
   justify-content: space-between;
@@ -29,11 +38,43 @@ const Title = styled.div`
   }
 `;
 
-const GridArea = styled.div`
+const SlideControls = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-between;
+  width: 158rem;
+  z-index: 10;
+`;
+
+const SlideBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 5rem;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 1.6rem;
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  .icon {
+    font-size: 2rem;
+  }
+`;
+
+const GridArea = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem 2rem;
+  gap: 4rem 2rem;
   margin: 3.2rem 0;
+  padding: 0 0.1rem;
 `;
 
 const Item = styled.div`
@@ -125,32 +166,69 @@ const Name = styled.span`
   font-size: 1.6rem;
   color: #333;
 `;
+
 const Price = styled.div``;
+
 const NowPrice = styled.strong`
   color: #222;
   line-height: 1.6;
   font-size: 2.6rem;
 `;
+
 const OriPrice = styled.span`
   margin: 0 3px 0 4px;
   color: #999;
   font-size: 1.9rem;
   text-decoration: line-through;
 `;
+
 const DisCountRate = styled.span`
   font-size: 2.6rem;
   color: #d62136;
 `;
+
 const Grade = styled.div`
   font-size: 1.4rem;
   color: #777;
 `;
 
+const rowVariants = {
+  hidden: (right: number) => {
+    return {
+      x: right === 1 ? 1280 + 5 : -1280 - 5,
+    };
+  },
+  visible: {
+    x: 0,
+  },
+  exit: (right: number) => {
+    return {
+      x: right === 1 ? -1280 - 5 : 1280 + 5,
+    };
+  },
+};
+
 function NowShopping() {
-  const data = nowShoppingChanceDatas();
-  const moneyUnit = (num: number) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const SlideCnt = 8;
+  const dataLen = Math.floor(data().length / 8);
+
+  const [leaving, setLeaving] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isRight, setIsRight] = useState(1); // left: -1, right: 1
+
+  const slideChange = (num: number) => {
+    if (leaving) return;
+    setLeaving(true);
+    setIsRight(num);
+    if (num > 0) {
+      setActiveSlide((prev) => (prev + 1 === dataLen ? 0 : prev + 1));
+    } else {
+      setActiveSlide((prev) => (prev === 0 ? dataLen - 1 : prev - 1));
+    }
   };
+
+  const moneyUnit = (num: number) =>
+    num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return (
     <Wrapper>
       <Inner>
@@ -158,162 +236,85 @@ function NowShopping() {
           <h1>지금이 쇼핑찬스</h1>
           <Link to="#">특가 바로가기</Link>
         </Title>
-        <GridArea>
-          {data &&
-            data.map((shopping, idx) => {
-              return (
-                <Item key={idx}>
-                  <ImgArea>
-                    <Imgs>
-                      <Img
-                        className="front"
-                        src={NowShoppingImg(shopping.frontImg || "")}
-                        alt={shopping.name}
-                      />
-                      <Img
-                        className="back"
-                        src={NowShoppingImg(shopping.backImg || "")}
-                        alt={shopping.name}
-                      />
-                    </Imgs>
-                    <ImgUtil>
-                      <AiOutlineFileAdd className="icon" />
-                      <AiOutlineHeart className="icon" />
-                      <AiOutlineShoppingCart className="icon" />
-                      <AiOutlineCreditCard className="icon" />
-                    </ImgUtil>
-                  </ImgArea>
-                  <Contents>
-                    <Name>{shopping.name}</Name>
-                    <Price>
-                      <NowPrice>{moneyUnit(shopping.price.nowPrice)}</NowPrice>
-                      {shopping.price.oriPrice && (
-                        <OriPrice>
-                          {moneyUnit(shopping.price.oriPrice)}
-                        </OriPrice>
-                      )}
-                      {shopping.price.disCountRate && (
-                        <DisCountRate>
-                          {shopping.price.disCountRate}%
-                        </DisCountRate>
-                      )}
-                    </Price>
-                    <Grade>
-                      <AiFillStar color={"#118168"} />
-                      {shopping.star}(
-                      {moneyUnit(shopping.starPointNumberOfPeople)})
-                    </Grade>
-                  </Contents>
-                </Item>
-              );
-            })}
-          {/* <Item>
-            <ImgArea>
-              <Img></Img>
-              <ImgUtil>
-                <AiOutlineFileAdd className="icon" />
-                <AiOutlineHeart className="icon" />
-                <AiOutlineShoppingCart className="icon" />
-                <AiOutlineCreditCard className="icon" />
-              </ImgUtil>
-            </ImgArea>
-            <Contents>
-              <Name>음영 정석 팔레트</Name>
-              <Price>
-                <NowPrice>23,000</NowPrice>
-                <OriPrice>32,000</OriPrice>
-                <DisCountRate>28%</DisCountRate>
-              </Price>
-              <Grade>
-                <AiOutlineStar /> 4.7(3)
-              </Grade>
-            </Contents>
-          </Item>
-          <Item>
-            <ImgArea>img</ImgArea>
-            <Contents>
-              <Name>음영 정석 팔레트</Name>
-              <Price>
-                <NowPrice>23,000</NowPrice>
-                <OriPrice>32,000</OriPrice>
-                <DisCountRate>28%</DisCountRate>
-              </Price>
-              <Grade>별 4.7(3)</Grade>
-            </Contents>
-          </Item>
-          <Item>
-            <ImgArea>img</ImgArea>
-            <Contents>
-              <Name>음영 정석 팔레트</Name>
-              <Price>
-                <NowPrice>23,000</NowPrice>
-                <OriPrice>32,000</OriPrice>
-                <DisCountRate>28%</DisCountRate>
-              </Price>
-              <Grade>별 4.7(3)</Grade>
-            </Contents>
-          </Item>
-          <Item>
-            <ImgArea>img</ImgArea>
-            <Contents>
-              <Name>음영 정석 팔레트</Name>
-              <Price>
-                <NowPrice>23,000</NowPrice>
-                <OriPrice>32,000</OriPrice>
-                <DisCountRate>28%</DisCountRate>
-              </Price>
-              <Grade>별 4.7(3)</Grade>
-            </Contents>
-          </Item>
-          <Item>
-            <ImgArea>img</ImgArea>
-            <Contents>
-              <Name>음영 정석 팔레트</Name>
-              <Price>
-                <NowPrice>23,000</NowPrice>
-                <OriPrice>32,000</OriPrice>
-                <DisCountRate>28%</DisCountRate>
-              </Price>
-              <Grade>별 4.7(3)</Grade>
-            </Contents>
-          </Item>
-          <Item>
-            <ImgArea>img</ImgArea>
-            <Contents>
-              <Name>음영 정석 팔레트</Name>
-              <Price>
-                <NowPrice>23,000</NowPrice>
-                <OriPrice>32,000</OriPrice>
-                <DisCountRate>28%</DisCountRate>
-              </Price>
-              <Grade>별 4.7(3)</Grade>
-            </Contents>
-          </Item>
-          <Item>
-            <ImgArea>img</ImgArea>
-            <Contents>
-              <Name>음영 정석 팔레트</Name>
-              <Price>
-                <NowPrice>23,000</NowPrice>
-                <OriPrice>32,000</OriPrice>
-                <DisCountRate>28%</DisCountRate>
-              </Price>
-              <Grade>별 4.7(3)</Grade>
-            </Contents>
-          </Item>
-          <Item>
-            <ImgArea>img</ImgArea>
-            <Contents>
-              <Name>음영 정석 팔레트</Name>
-              <Price>
-                <NowPrice>23,000</NowPrice>
-                <OriPrice>32,000</OriPrice>
-                <DisCountRate>28%</DisCountRate>
-              </Price>
-              <Grade>별 4.7(3)</Grade>
-            </Contents>
-          </Item> */}
-        </GridArea>
+        <SlideControls>
+          <SlideBtn onClick={() => slideChange(-1)}>
+            <AiOutlineLeft className="icon" />
+          </SlideBtn>
+          <SlideBtn onClick={() => slideChange(1)}>
+            <AiOutlineRight className="icon" />
+          </SlideBtn>
+        </SlideControls>
+        <AnimatePresence
+          initial={false}
+          onExitComplete={() => setLeaving(false)}
+          custom={isRight}
+        >
+          <GridArea
+            variants={rowVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            transition={{ type: "tween", duration: 0.6 }}
+            key={activeSlide}
+          >
+            {data() &&
+              data().length > 0 &&
+              data()
+                .slice(
+                  activeSlide * SlideCnt,
+                  SlideCnt * activeSlide + SlideCnt
+                )
+                .map((shopping) => {
+                  return (
+                    <Item key={shopping.id}>
+                      <ImgArea>
+                        <Imgs>
+                          <Img
+                            className="front"
+                            src={NowShoppingImg(shopping.frontImg || "")}
+                            alt={shopping.name}
+                          />
+                          <Img
+                            className="back"
+                            src={NowShoppingImg(shopping.backImg || "")}
+                            alt={shopping.name}
+                          />
+                        </Imgs>
+                        <ImgUtil>
+                          <AiOutlineFileAdd className="icon" />
+                          <AiOutlineHeart className="icon" />
+                          <AiOutlineShoppingCart className="icon" />
+                          <AiOutlineCreditCard className="icon" />
+                        </ImgUtil>
+                      </ImgArea>
+                      <Contents>
+                        <Name>{shopping.name}</Name>
+                        <Price>
+                          <NowPrice>
+                            {moneyUnit(shopping.price.nowPrice)}
+                          </NowPrice>
+                          {shopping.price.oriPrice && (
+                            <OriPrice>
+                              {moneyUnit(shopping.price.oriPrice)}
+                            </OriPrice>
+                          )}
+                          {shopping.price.disCountRate && (
+                            <DisCountRate>
+                              {shopping.price.disCountRate}%
+                            </DisCountRate>
+                          )}
+                        </Price>
+                        <Grade>
+                          <AiFillStar color={"#118168"} />
+                          {shopping.star}(
+                          {moneyUnit(shopping.starPointNumberOfPeople)})
+                        </Grade>
+                      </Contents>
+                    </Item>
+                  );
+                })}
+          </GridArea>
+        </AnimatePresence>
       </Inner>
     </Wrapper>
   );

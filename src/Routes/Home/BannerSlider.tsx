@@ -120,8 +120,6 @@ function BannerSlider() {
   const [activeSlide, setActiveSlide] = useState(1);
   const SliderLen = 10;
   const slideChange = (e: SwiperCore) => {
-    console.log(e);
-    console.log(e.activeIndex);
     setActiveSlide(e.activeIndex);
   };
   // const slideChange = (e: any) => setActiveSlide(e.activeIndex);

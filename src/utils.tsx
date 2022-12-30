@@ -32,3 +32,6 @@ export const BannerImage = (num: number) =>
 
 export const NowShoppingImg = (imgFileName: string) =>
   require(`./assets/imgs/nowShopping/${imgFileName}`);
+
+export const PdiImg = (imgFileName: string) =>
+  require(`./assets/imgs/ProductOfInterest/${imgFileName}`);

@@ -6,6 +6,7 @@ import { AwardFooterImg, FooterLogoImg } from "../../utils";
 
 const FooterArea = styled.footer`
   border-top: 1px solid #dbdbdb;
+  padding-bottom: 8rem;
 `;
 
 const Row = styled.div`

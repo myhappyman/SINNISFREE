@@ -34,22 +34,25 @@ const Title = styled.div`
 
 const ProductList = styled.ul`
   position: absolute;
-  left: 0;
-  display: flex;
+  left: 50%;
+  transform: translateX(-50%);
   width: 192rem;
   margin-top: 3.6rem;
+  overflow: hidden;
 `;
 
 const Product = styled.li`
-  & ~ & {
+width: 41.6rem;
+  /* & ~ & {
     margin-left: 1.6rem;
-  }
+  } */
 `;
 
 const Slide = styled(SwiperSlide)``;
 
 const PdImg = styled.img`
   display: block;
+  width: 100%;
 `;
 
 const PdInfo = styled.div``;
@@ -112,21 +115,17 @@ function ProductOfInterest() {
         </SlideControls>
 
         <ProductList>
-          <Swiper
+          {/* <Swiper
             slidesPerView={5}
             spaceBetween={200}
             slidesPerGroup={1}
             loop={true}
-            // loopFillGroupWithBlank={true}
-            // navigation={true}
-            // modules={[Navigation]}
-            // className="mySwiper"
-          >
+          > */}
             {datas() &&
               datas().length > 0 &&
               datas().map((data) => (
                 <Product key={data.id}>
-                  <Slide>
+                  {/* <Slide> */}
                     <PdImg src={PdiImg(data.frontImg)} alt={data.name} />
                     <PdInfo>
                       <PdName>{data.name}</PdName>
@@ -136,10 +135,10 @@ function ProductOfInterest() {
                         </Price>
                       </PdPrice>
                     </PdInfo>
-                  </Slide>
+                  {/* </Slide> */}
                 </Product>
               ))}
-          </Swiper>
+          {/* </Swiper> */}
         </ProductList>
       </Inner>
     </Wrapper>

@@ -9,6 +9,7 @@ import { useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const Wrapper = styled.div`
+  position: relative;
   min-width: 128rem;
   max-width: 192rem;
   padding-top: 7.5rem;
@@ -32,20 +33,50 @@ const Title = styled.div`
   }
 `;
 
-const ProductList = styled.ul`
+const SlideWrap = styled.div`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   width: 192rem;
   margin-top: 3.6rem;
   overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    width: calc(50% - 64.2rem);
+    background: rgba(250, 250, 250, 0.5);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: calc(50% - 64.2rem);
+    background: rgba(250, 250, 250, 0.5);
+  }
+`;
+
+const ProductList = styled.ul`
+  .swiper_wrapper {
+    position: relative;
+    width: 128rem;
+    margin: 0 auto;
+    overflow: unset;
+    .swiper-slide {
+      width: 41.6rem;
+    }
+  }
 `;
 
 const Product = styled.li`
-width: 41.6rem;
-  /* & ~ & {
-    margin-left: 1.6rem;
-  } */
+  width: 41.6rem;
+  margin-right: 1.6rem;
 `;
 
 const Slide = styled(SwiperSlide)``;
@@ -114,32 +145,38 @@ function ProductOfInterest() {
           </SlideBtn>
         </SlideControls>
 
-        <ProductList>
-          {/* <Swiper
-            slidesPerView={5}
-            spaceBetween={200}
-            slidesPerGroup={1}
-            loop={true}
-          > */}
-            {datas() &&
-              datas().length > 0 &&
-              datas().map((data) => (
-                <Product key={data.id}>
-                  {/* <Slide> */}
-                    <PdImg src={PdiImg(data.frontImg)} alt={data.name} />
-                    <PdInfo>
-                      <PdName>{data.name}</PdName>
-                      <PdPrice>
-                        <Price className="nowPrice">
-                          {data.price.nowPrice}
-                        </Price>
-                      </PdPrice>
-                    </PdInfo>
-                  {/* </Slide> */}
-                </Product>
-              ))}
-          {/* </Swiper> */}
-        </ProductList>
+        <SlideWrap>
+          <ProductList>
+            <Swiper
+              slidesPerView={5}
+              spaceBetween={10}
+              slidesPerGroup={1}
+              loop={true}
+              style={{
+                position: "relative",
+                display: "flex",
+              }}
+            >
+              {datas() &&
+                datas().length > 0 &&
+                datas().map((data) => (
+                  <Product key={data.id}>
+                    <Slide>
+                      <PdImg src={PdiImg(data.frontImg)} alt={data.name} />
+                      <PdInfo>
+                        <PdName>{data.name}</PdName>
+                        <PdPrice>
+                          <Price className="nowPrice">
+                            {data.price.nowPrice}
+                          </Price>
+                        </PdPrice>
+                      </PdInfo>
+                    </Slide>
+                  </Product>
+                ))}
+            </Swiper>
+          </ProductList>
+        </SlideWrap>
       </Inner>
     </Wrapper>
   );

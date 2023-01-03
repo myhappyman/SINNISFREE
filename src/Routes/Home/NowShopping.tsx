@@ -10,7 +10,7 @@ import {
   AiOutlineRight,
 } from "react-icons/ai";
 import data from "../Datas/NowShoppingDatas";
-import { NowShoppingImg } from "../../utils";
+import { moneyUnit, NowShoppingImg } from "../../utils";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -170,6 +170,7 @@ const Name = styled.span`
 const Price = styled.div``;
 
 const NowPrice = styled.strong`
+  font-weight: bold;
   color: #222;
   line-height: 1.6;
   font-size: 2.6rem;
@@ -227,8 +228,6 @@ function NowShopping() {
     }
   };
 
-  const moneyUnit = (num: number) =>
-    num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return (
     <Wrapper>
       <Inner>

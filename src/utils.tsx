@@ -35,3 +35,9 @@ export const NowShoppingImg = (imgFileName: string) =>
 
 export const PdiImg = (imgFileName: string) =>
   require(`./assets/imgs/ProductOfInterest/${imgFileName}`);
+
+export const RecommendImages = (imgFileName: string) =>
+  require(`./assets/imgs/RecommendItems/${imgFileName}`);
+
+export const moneyUnit = (num: number) =>
+  num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

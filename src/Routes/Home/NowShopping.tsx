@@ -129,8 +129,8 @@ const Img = styled.img`
 const ImgUtil = styled.div`
   display: none;
   position: absolute;
-  bottom: 0;
-  /* display: grid; */
+  left: 0%;
+  bottom: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 0.1rem;
   width: 100%;

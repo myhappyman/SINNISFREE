@@ -23,6 +23,12 @@ export const AwardFooterImg = () => require("./assets/imgs/awardsFooter.png");
 export const DepthArrow = () => require("./assets/imgs/depth_arr.png");
 
 /**
+ * 하단 화살표 이미지
+ * @returns
+ */
+export const DropOpen = () => require("./assets/imgs/drop_open.png");
+
+/**
  * banner Image
  * @param num 01~10까지
  * @returns

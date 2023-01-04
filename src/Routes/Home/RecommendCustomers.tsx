@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { RecommendImages } from "../../utils";
+import { DropOpen, RecommendImages } from "../../utils";
 import RecommendDatas from "../Datas/RecommendDatas";
 
 const Wrapper = styled.div`
   position: relative;
   min-width: 128rem;
   max-width: 192rem;
-  padding-top: 7.5rem;
   background-color: #fff;
 `;
 
@@ -42,10 +41,36 @@ const ForU = styled.span`
 const Title = styled.h1``;
 
 const RecommendSelector = styled.div`
-  display: block;
-  padding-top: 2.5rem;
+  background: #fff;
+  margin-top: 2.5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  color: #999;
+  font-size: 2.4rem;
+  line-height: 2.4;
+  text-align: center;
+
   &::after {
     clear: both;
+  }
+`;
+
+const SelectorBtn = styled.button<{ afterImg: string }>`
+  position: relative;
+  padding-right: 2rem;
+  font-size: 2.4rem;
+  line-height: 2.4;
+  border: none;
+  background: transparent;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: url(${(props) => props.afterImg});
   }
 `;
 
@@ -76,14 +101,16 @@ function RecommendCustomers() {
             </Title>
           </TitleArea>
           <RecommendSelector>
-            건성 피부와 모공 주름 탄력 고민에 추천드려요
+            <SelectorBtn afterImg={DropOpen()}>건성</SelectorBtn> 피부와
+            <SelectorBtn afterImg={DropOpen()}>모공 주름 탄력</SelectorBtn>
+            고민에 추천드려요
           </RecommendSelector>
         </Inner>
       </Top>
       <Inner>
         {RecommendDatas() &&
           RecommendDatas().map((data) => (
-            <Items>
+            <Items key={data.id}>
               <ImageArea>
                 <img src={RecommendImages(data.frontImg)} alt={data.name}></img>
               </ImageArea>

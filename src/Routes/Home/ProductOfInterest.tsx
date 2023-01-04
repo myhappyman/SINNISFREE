@@ -5,7 +5,7 @@ import datas from "../Datas/ProductOfInterestDatas";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 import "swiper/css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const Wrapper = styled.div`
@@ -160,6 +160,10 @@ function ProductOfInterest() {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
 
+  const [activeSlide, setActiveSlide] = useState(1);
+  const slideChange = (e: SwiperCore) => {
+    setActiveSlide(e.activeIndex);
+  };
   return (
     <Wrapper>
       <Inner>
@@ -184,6 +188,24 @@ function ProductOfInterest() {
               spaceBetween={10}
               grabCursor={true}
               loop={true}
+              pagination={{ clickable: true }}
+              navigation={{
+                prevEl: prevRef.current ? prevRef.current : undefined,
+                nextEl: nextRef.current ? nextRef.current : undefined,
+              }}
+              onBeforeInit={(swiper) => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                // eslint-disable-next-line no-param-reassign
+                swiper.params.navigation.prevEl = prevRef.current;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                // eslint-disable-next-line no-param-reassign
+                swiper.params.navigation.nextEl = nextRef.current;
+                swiper.activeIndex = activeSlide;
+                swiper.navigation.update();
+              }}
+              onSlideChange={slideChange}
               style={{
                 position: "relative",
                 display: "flex",

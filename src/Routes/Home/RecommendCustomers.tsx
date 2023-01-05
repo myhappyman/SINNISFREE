@@ -5,7 +5,9 @@ import {
   AiOutlineHeart,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { SkinConcerns, SkinModalState, SkinTypes } from "../../atoms";
 import { DropOpen, RecommendImages } from "../../utils";
 import RecommendDatas from "../Datas/RecommendDatas";
 import RecommendModal from "./RecommendModal";
@@ -68,6 +70,7 @@ const SelectorBtn = styled.button<{ afterImg: string }>`
   line-height: 2.4;
   border: none;
   background: transparent;
+  cursor: pointer;
   &::after {
     content: "";
     position: absolute;
@@ -206,8 +209,12 @@ const HashTag = styled.span`
 `;
 
 function RecommendCustomers() {
-  const [type, setType] = useState("건성");
-  const [types, setTypes] = useState(["모공", "주름", "탄력"]);
+  const type = useRecoilValue(SkinTypes);
+  const concerns = useRecoilValue(SkinConcerns);
+  const [modalOpen, setModalOpen] = useRecoilState(SkinModalState);
+  const toggleModal = () => {
+    setModalOpen((prev) => !prev);
+  };
   return (
     <Wrapper>
       <Top>
@@ -218,10 +225,13 @@ function RecommendCustomers() {
             </Title>
           </TitleArea>
           <RecommendSelector>
-            <SelectorBtn afterImg={DropOpen()}>{type}</SelectorBtn> 피부와
-            <SelectorBtn afterImg={DropOpen()}>
-              {types.map((t, idx) =>
-                idx + 1 === types.length ? t : `${t} / `
+            <SelectorBtn onClick={toggleModal} afterImg={DropOpen()}>
+              {type}
+            </SelectorBtn>{" "}
+            피부와
+            <SelectorBtn onClick={toggleModal} afterImg={DropOpen()}>
+              {concerns.map((c, idx) =>
+                idx + 1 === concerns.length ? c : `${c} / `
               )}
             </SelectorBtn>
             고민에 추천드려요
@@ -265,7 +275,7 @@ function RecommendCustomers() {
             ))}
         </ItemArea>
       </Inner>
-      <RecommendModal />
+      {modalOpen ? <RecommendModal /> : null}
     </Wrapper>
   );
 }

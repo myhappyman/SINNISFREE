@@ -10,7 +10,7 @@ import {
   AiOutlineRight,
 } from "react-icons/ai";
 import data from "../Datas/NowShoppingDatas";
-import { moneyUnit, NowShoppingImg } from "../../utils";
+import { AddMoreIcon, moneyUnit, NowShoppingImg } from "../../utils";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -36,6 +36,17 @@ const Title = styled.div`
   a {
     font-size: 1.6rem;
   }
+`;
+
+const AddView = styled(Link)`
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  padding: 0 3rem 0.2rem 0;
+  font-size: 1.6rem;
+  background: url(${AddMoreIcon()}) no-repeat 100% 100%;
+  color: #333;
+  cursor: pointer;
 `;
 
 const SlideControls = styled.div`
@@ -129,8 +140,8 @@ const Img = styled.img`
 const ImgUtil = styled.div`
   display: none;
   position: absolute;
-  left: 0%;
-  bottom: 0.5rem;
+  left: 0;
+  bottom: 0rem;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 0.1rem;
   width: 100%;
@@ -141,12 +152,13 @@ const ImgUtil = styled.div`
     padding: 0.6rem 0;
     margin: 0 auto;
     background: rgba(34, 34, 34, 0.5);
+    cursor: pointer;
   }
 `;
 
 const ImgArea = styled.div`
   position: relative;
-  height: 31.2rem;
+  height: 30.6rem;
   background: #fafafa;
   border-radius: 0.5rem 0.5rem 0 0;
 
@@ -194,17 +206,35 @@ const Grade = styled.div`
 `;
 
 const rowVariants = {
+  // hidden: (right: number) => {
+  //   return {
+  //     x: right === 1 ? 1280 + 5 : -1280 - 5,
+  //   };
+  // },
+  // visible: {
+  //   x: 0,
+  // },
+  // exit: (right: number) => {
+  //   return {
+  //     x: right === 1 ? -1280 - 5 : 1280 + 5,
+  //   };
+  // },
   hidden: (right: number) => {
     return {
-      x: right === 1 ? 1280 + 5 : -1280 - 5,
+      x: right === 1 ? 2000 : -2000,
+      opacity: 0,
     };
   },
   visible: {
+    zIndex: 1,
     x: 0,
+    opacity: 1,
   },
   exit: (right: number) => {
     return {
-      x: right === 1 ? -1280 - 5 : 1280 + 5,
+      zIndex: 0,
+      x: right === 1 ? 2000 : -2000,
+      opacity: 0,
     };
   },
 };
@@ -233,7 +263,7 @@ function NowShopping() {
       <Inner>
         <Title>
           <h1>지금이 쇼핑찬스</h1>
-          <Link to="#">특가 바로가기</Link>
+          <AddView to="#">특가 바로가기</AddView>
         </Title>
         <SlideControls>
           <SlideBtn onClick={() => slideChange(-1)}>
@@ -253,7 +283,11 @@ function NowShopping() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            transition={{ type: "tween", duration: 0.6 }}
+            // transition={{ type: "tween", duration: 0.6 }}
+            transition={{
+              x: { type: "tween", stiffness: 600, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
             key={activeSlide}
           >
             {data() &&

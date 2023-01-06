@@ -8,7 +8,7 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { SkinConcerns, SkinModalState, SkinTypes } from "../../atoms";
-import { DropOpen, RecommendImages } from "../../utils";
+import { DropOpen, RecommendImages, RefreshIcon } from "../../utils";
 import RecommendDatas from "../Datas/RecommendDatas";
 import RecommendModal from "./RecommendModal";
 
@@ -34,16 +34,18 @@ const TitleArea = styled.div`
   color: #fff;
   text-align: center;
   font-size: 3.8rem;
-  outline: 1px solid red;
 `;
 
 const ForU = styled.span`
+  display: inline-block;
   margin: 0 1rem 1rem 0;
   padding: 0.6rem 1rem;
-  background: rgba(255, 255, 255, 0.3);
+  vertical-align: top;
   border-radius: 1rem;
-  font-size: 1.6rem;
-  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.3);
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.4;
   color: #6a79da;
 `;
 
@@ -68,6 +70,7 @@ const SelectorBtn = styled.button<{ afterImg: string }>`
   padding-right: 2rem;
   font-size: 2.4rem;
   line-height: 2.4;
+  text-decoration: underline;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -81,11 +84,14 @@ const SelectorBtn = styled.button<{ afterImg: string }>`
     height: 24px;
     background: url(${(props) => props.afterImg});
   }
+  & ~ & {
+    margin-left: 1rem;
+  }
 `;
 
 const ItemArea = styled.div`
   display: inline-block;
-  margin: -5rem 0 5rem 0;
+  margin: -5rem 0 0 0;
 `;
 
 const Items = styled.div`
@@ -121,14 +127,15 @@ const Img = styled.img`
 `;
 
 const ImgUtil = styled.div`
-  display: flex;
+  display: none;
   position: absolute;
   left: 0;
-  bottom: 0.5rem;
+  bottom: 0.6rem;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 0.1rem;
   width: 100%;
   z-index: 2;
+  cursor: pointer;
   .icon {
     width: 100%;
     height: 4.4rem;
@@ -189,7 +196,6 @@ const ImageArea = styled.div`
 const Contents = styled.div`
   margin: 1rem 1rem 5rem 1rem;
   font-size: 1.6rem;
-  font-weight: 700;
   color: #333;
 `;
 
@@ -208,6 +214,42 @@ const HashTag = styled.span`
   }
 `;
 
+const Footer = styled(Inner)`
+  text-align: center;
+  margin-bottom: 5rem;
+`;
+
+const NextBtn = styled.button`
+  position: relative;
+  padding-left: 3rem;
+  width: 29rem;
+  height: 4.8rem;
+  line-height: 4.8rem;
+  border: 1px solid #ccc;
+  font-size: 1.4rem;
+  color: #222;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 2.4rem;
+  cursor: pointer;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background: url(${RefreshIcon()});
+  }
+  span {
+    margin-left: 1rem;
+    strong {
+      font-weight: 700;
+    }
+  }
+`;
+
 function RecommendCustomers() {
   const type = useRecoilValue(SkinTypes);
   const concerns = useRecoilValue(SkinConcerns);
@@ -215,6 +257,11 @@ function RecommendCustomers() {
   const toggleModal = () => {
     setModalOpen((prev) => !prev);
   };
+  const length = RecommendDatas().length;
+  const offset = 6;
+  const [page, setPage] = useState(0);
+  const nextPage = () =>
+    setPage((prev) => (prev + 1 >= length / offset ? 0 : prev + 1));
   return (
     <Wrapper>
       <Top>
@@ -241,40 +288,51 @@ function RecommendCustomers() {
       <Inner>
         <ItemArea>
           {RecommendDatas() &&
-            RecommendDatas().map((data, idx) => (
-              <Items key={data.id}>
-                <ImageArea>
-                  <Imgs>
-                    <Img
-                      className="front"
-                      src={RecommendImages(data.frontImg || "")}
-                      alt={data.name}
-                    />
-                    <Img
-                      className="back"
-                      src={RecommendImages(data.backImg || "")}
-                      alt={data.name}
-                    />
-                  </Imgs>
-                  <ImgUtil>
-                    <AiOutlineFileAdd className="icon" />
-                    <AiOutlineHeart className="icon" />
-                    <AiOutlineShoppingCart className="icon" />
-                    <AiOutlineCreditCard className="icon" />
-                  </ImgUtil>
-                </ImageArea>
-                <Contents>
-                  <Name>{data.name}</Name>
-                  <TagArea>
-                    {data.hashTag.map((hashTag) => (
-                      <HashTag>#{hashTag}</HashTag>
-                    ))}
-                  </TagArea>
-                </Contents>
-              </Items>
-            ))}
+            RecommendDatas()
+              .splice(page * offset, page * offset + offset)
+              .map((data, idx) => (
+                <Items key={data.id + idx}>
+                  <ImageArea>
+                    <Imgs>
+                      <Img
+                        className="front"
+                        src={RecommendImages(data.frontImg || "")}
+                        alt={data.name}
+                      />
+                      <Img
+                        className="back"
+                        src={RecommendImages(data.backImg || "")}
+                        alt={data.name}
+                      />
+                    </Imgs>
+                    <ImgUtil>
+                      <AiOutlineFileAdd className="icon" />
+                      <AiOutlineHeart className="icon" />
+                      <AiOutlineShoppingCart className="icon" />
+                      <AiOutlineCreditCard className="icon" />
+                    </ImgUtil>
+                  </ImageArea>
+                  <Contents>
+                    <Name>{data.name}</Name>
+                    <TagArea>
+                      {data.hashTag.map((hashTag, idx) => (
+                        <HashTag key={`hashTag${idx}`}>#{hashTag}</HashTag>
+                      ))}
+                    </TagArea>
+                  </Contents>
+                </Items>
+              ))}
         </ItemArea>
       </Inner>
+      <Footer>
+        <NextBtn onClick={nextPage}>
+          새로운 추천을 받고싶어요
+          <span>
+            <strong>{page + 1}</strong> / {length / offset}
+          </span>
+        </NextBtn>
+      </Footer>
+
       {modalOpen ? <RecommendModal /> : null}
     </Wrapper>
   );

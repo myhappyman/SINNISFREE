@@ -29,6 +29,18 @@ export const DepthArrow = () => require("./assets/imgs/depth_arr.png");
 export const DropOpen = () => require("./assets/imgs/drop_open.png");
 
 /**
+ * 새로고침 아이콘
+ * @returns
+ */
+export const RefreshIcon = () => require("./assets/imgs/icon_refresh.png");
+
+/**
+ * 더보기 아이콘
+ * @returns
+ */
+export const AddMoreIcon = () => require("./assets/imgs/icon_add_more.png");
+
+/**
  * banner Image
  * @param num 01~10까지
  * @returns

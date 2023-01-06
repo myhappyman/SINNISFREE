@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { moneyUnit, PdiImg } from "../../utils";
-import datas from "../Datas/ProductOfInterestDatas";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation } from "swiper";
-import "swiper/css";
 import { useRef, useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { AddMoreIcon, moneyUnit, PdiImg } from "../../utils";
+import datas from "../Datas/ProductOfInterestDatas";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Navigation, Autoplay } from "swiper";
+import "swiper/css";
 
 const Wrapper = styled.div`
   position: relative;
@@ -23,6 +23,7 @@ const Inner = styled.div`
 `;
 
 const Title = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   h1 {
@@ -31,6 +32,17 @@ const Title = styled.div`
   a {
     font-size: 1.6rem;
   }
+`;
+
+const AddView = styled(Link)`
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  padding: 0 3rem 0.2rem 0;
+  font-size: 1.6rem;
+  background: url(${AddMoreIcon()}) no-repeat 100% 100%;
+  color: #333;
+  cursor: pointer;
 `;
 
 const SlideControls = styled.div`
@@ -125,7 +137,9 @@ const PdImg = styled.img`
   width: 100%;
 `;
 
-const PdInfo = styled.div``;
+const PdInfo = styled.div`
+  padding: 2rem 2.4rem 0;
+`;
 const PdName = styled.span`
   font-size: 1.6rem;
   color: #333;
@@ -154,7 +168,7 @@ const Price = styled.span`
   }
 `;
 
-SwiperCore.use([Navigation]);
+SwiperCore.use([Navigation, Autoplay]);
 
 function ProductOfInterest() {
   const prevRef = useRef<HTMLDivElement>(null);
@@ -169,7 +183,7 @@ function ProductOfInterest() {
       <Inner>
         <Title>
           <h1>이 상품 관심있지 않으세요?</h1>
-          <Link to="#">FOR U 바로가기</Link>
+          <AddView to="#">FOR U 바로가기</AddView>
         </Title>
         <SlideControls>
           <SlideBtn ref={prevRef}>
@@ -193,6 +207,7 @@ function ProductOfInterest() {
                 prevEl: prevRef.current ? prevRef.current : undefined,
                 nextEl: nextRef.current ? nextRef.current : undefined,
               }}
+              autoplay={{ delay: 3000 }}
               onBeforeInit={(swiper) => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore

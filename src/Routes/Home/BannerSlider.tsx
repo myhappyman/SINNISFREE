@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation } from "swiper";
+import SwiperCore, { Navigation, Autoplay } from "swiper";
 import "swiper/css";
 import { BannerImage } from "../../utils";
 import { useState, useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
-const SliderArea = styled.div``;
+const SliderArea = styled.div`
+  min-width: 128rem;
+  max-width: 192rem;
+  background-color: #fff;
+`;
 
 const Slide = styled(SwiperSlide)`
   position: relative;
@@ -21,7 +25,7 @@ const SlideControls = styled.div`
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
-  width: 158rem;
+  width: 148rem;
   z-index: 10;
 `;
 
@@ -112,7 +116,7 @@ const LinePrice = styled(Price)`
   font-weight: 400;
 `;
 
-SwiperCore.use([Navigation]);
+SwiperCore.use([Navigation, Autoplay]);
 
 function BannerSlider() {
   const prevRef = useRef<HTMLDivElement>(null);
@@ -166,6 +170,7 @@ function BannerSlider() {
           prevEl: prevRef.current ? prevRef.current : undefined,
           nextEl: nextRef.current ? nextRef.current : undefined,
         }}
+        autoplay={{ delay: 5000 }}
         onBeforeInit={(swiper) => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore

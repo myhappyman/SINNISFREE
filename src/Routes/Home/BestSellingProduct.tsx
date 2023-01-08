@@ -120,7 +120,7 @@ const SlideWrap = styled.div`
   transform: translateX(-50%);
   width: 100%;
   margin-top: 3.6rem;
-  overflow: hidden;
+  /* overflow: hidden; */
   &::before {
     content: "";
     position: absolute;
@@ -128,7 +128,7 @@ const SlideWrap = styled.div`
     left: 0;
     bottom: 0;
     z-index: 2;
-    width: calc(12.5% - 1.6rem);
+    width: calc(100% / 6 - 0.7rem);
     background: rgba(250, 250, 250, 0.5);
   }
   &::after {
@@ -138,45 +138,38 @@ const SlideWrap = styled.div`
     right: 0;
     bottom: 0;
     z-index: 2;
-    width: calc(12.5% - 1.6rem);
+    width: calc(100% / 6 - 0.7rem);
     background: rgba(250, 250, 250, 0.5);
   }
 `;
 
 const ProductList = styled.ul`
   .swiper_wrapper {
-    position: relative;
-    width: 128rem;
-    margin: 0 auto;
-    overflow: unset;
+    padding: 1rem;
+  }
+  .swiper {
+    overflow: visible;
   }
 `;
 
 const Slide = styled(SwiperSlide)`
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
   align-items: center;
 `;
 
 const Item = styled.li`
-  /* border-radius: 0.5rem;
+  width: 100%;
+  height: 48rem;
+  border-radius: 0.5rem;
   &:hover {
     outline: 1px solid #118168;
-  } */
+  }
 `;
 
 const Imgs = styled.div`
   position: relative;
-  height: 314px;
+  height: 100%;
   &:hover {
     .front {
       opacity: 0;
@@ -221,7 +214,7 @@ const ImgUtil = styled.div`
   display: none;
   position: absolute;
   left: 0;
-  bottom: 0rem;
+  bottom: 0;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 0.1rem;
   width: 100%;
@@ -236,9 +229,29 @@ const ImgUtil = styled.div`
   }
 `;
 
+const ImgNumber = styled.span`
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4.4rem;
+  height: 4.4rem;
+  text-align: center;
+  font-size: 2rem;
+  line-height: 4.4rem;
+  font-weight: 700;
+  background-color: #ccc;
+  z-index: 3;
+  border-radius: 0.5rem 0 0.5rem 0;
+  color: #fff;
+  &.best {
+    background-color: #118168;
+  }
+`;
+
 const ImgArea = styled.div`
   position: relative;
-  height: 30.6rem;
+  height: 31.4rem;
   background: #fafafa;
   border-radius: 0.5rem 0.5rem 0 0;
 
@@ -249,8 +262,8 @@ const ImgArea = styled.div`
 `;
 
 const Contents = styled.div`
-  height: 20.8rem;
-  padding: 2rem 2.4rem 0;
+  height: 14rem;
+  padding: 2rem 2.4rem 0 2.4rem;
 `;
 
 const Name = styled.span`
@@ -294,6 +307,8 @@ function BestSellingProduct() {
   const slideChange = (e: SwiperCore) => {
     setActiveSlide(e.activeIndex);
   };
+
+  const TenNumber = (num: number) => (num < 10 ? `0${num}` : num);
   return (
     <Wrapper>
       <Inner>
@@ -330,9 +345,8 @@ function BestSellingProduct() {
         <SlideWrap>
           <ProductList>
             <Swiper
-              slidesPerView={7}
-              centeredSlides={true}
-              spaceBetween={5}
+              slidesPerView={6}
+              spaceBetween={8}
               grabCursor={true}
               loop={true}
               pagination={{ clickable: true }}
@@ -360,10 +374,13 @@ function BestSellingProduct() {
               }}
             >
               {RealTimeSale() &&
-                RealTimeSale().map((sale) => (
+                RealTimeSale().map((sale, idx) => (
                   <Slide key={sale.id}>
                     <Item>
                       <ImgArea>
+                        <ImgNumber className={idx < 3 ? "best" : ""}>
+                          {TenNumber(idx + 1)}
+                        </ImgNumber>
                         <Imgs>
                           <Img
                             className="front"

@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 import { Link } from "react-router-dom";
@@ -84,11 +84,21 @@ function Header() {
         <HeaderArea padding={"0"}>
           <UtilBar>
             <UtilMenu>
-              <li>고객센터</li>
-              <li className="end">About US</li>
-              <li>로그인</li>
-              <li>회원가입</li>
-              <li>마이페이지</li>
+              <li>
+                <Link to="#">고객센터</Link>
+              </li>
+              <li className="end">
+                <Link to="#">About US</Link>
+              </li>
+              <li>
+                <Link to="/login">로그인</Link>
+              </li>
+              <li>
+                <Link to="#">회원가입</Link>
+              </li>
+              <li>
+                <Link to="#">마이페이지</Link>
+              </li>
               <li>
                 장바구니 <em>0</em>
               </li>

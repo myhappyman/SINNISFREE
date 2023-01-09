@@ -40,6 +40,11 @@ export const RefreshIcon = () => require("./assets/imgs/icon_refresh.png");
  */
 export const AddMoreIcon = () => require("./assets/imgs/icon_add_more.png");
 
+/**
+ * 멤버쉽 아이콘
+ * @param num
+ * @returns
+ */
 export const MemberShipIcon = (num: number) =>
   require(`./assets/imgs/MemberShipIcons/icon_mb${num}.png`);
 
@@ -65,6 +70,12 @@ export const BestSellingImages = (imgFileName: string) =>
 
 export const NewItemsImg = (imgFileName: string) =>
   require(`./assets/imgs/NewItems/${imgFileName}`);
+
+/**
+ * 이벤트 페이지 상세 이미지들
+ */
+export const EventPageImages = (fileName: string) =>
+  require(`./assets/imgs/Events/${fileName}`);
 
 export const moneyUnit = (num: number) =>
   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

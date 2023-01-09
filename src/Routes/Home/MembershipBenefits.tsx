@@ -66,6 +66,7 @@ const MTitle = styled.strong`
   display: block;
   font-size: 1.8rem;
   color: #222;
+  font-weight: 700;
 `;
 const MText = styled.span`
   display: block;

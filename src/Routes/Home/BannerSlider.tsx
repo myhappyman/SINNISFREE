@@ -5,6 +5,7 @@ import "swiper/css";
 import { BannerImage } from "../../utils";
 import { useState, useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const SliderArea = styled.div`
   min-width: 128rem;
@@ -186,42 +187,46 @@ function BannerSlider() {
         onSlideChange={slideChange}
       >
         <Slide>
-          <SliderImg>
-            <img src={BannerImage(1)} alt="bannerImage" />
-          </SliderImg>
-          <SliderInner>
-            <InnerArea>
-              <Keyword bgcolor="#d62136">27%</Keyword>
-              <Keyword bgcolor="#000">사은품</Keyword>
-            </InnerArea>
-            <InnerArea>
-              <BannerText>이니어워즈 올해의 판매 1위</BannerText>
-              <BannerBoldText>확신의 안티에이징 앰플</BannerBoldText>
-            </InnerArea>
-            <InnerArea>
-              <LinePrice>53,000</LinePrice>
-              <Price>38,690</Price>
-            </InnerArea>
-          </SliderInner>
+          <Link to="/EventView/e1">
+            <SliderImg>
+              <img src={BannerImage(1)} alt="bannerImage" />
+            </SliderImg>
+            <SliderInner>
+              <InnerArea>
+                <Keyword bgcolor="#d62136">27%</Keyword>
+                <Keyword bgcolor="#000">사은품</Keyword>
+              </InnerArea>
+              <InnerArea>
+                <BannerText>이니어워즈 올해의 판매 1위</BannerText>
+                <BannerBoldText>확신의 안티에이징 앰플</BannerBoldText>
+              </InnerArea>
+              <InnerArea>
+                <LinePrice>53,000</LinePrice>
+                <Price>38,690</Price>
+              </InnerArea>
+            </SliderInner>
+          </Link>
         </Slide>
         <Slide>
-          <SliderImg>
-            <img src={BannerImage(2)} alt="bannerImage" />
-          </SliderImg>
-          <SliderInner>
-            <InnerArea>
-              <Keyword bgcolor="#d62136">25%</Keyword>
-              <Keyword bgcolor="#000">사은품</Keyword>
-            </InnerArea>
-            <InnerArea>
-              <BannerText>자고 일어나면 촉촉쫀득!</BannerText>
-              <BannerBoldText>속탄력 콜라겐 앰플크림</BannerBoldText>
-            </InnerArea>
-            <InnerArea>
-              <LinePrice>39,000</LinePrice>
-              <Price>29,250</Price>
-            </InnerArea>
-          </SliderInner>
+          <Link to="/EventView/e2">
+            <SliderImg>
+              <img src={BannerImage(2)} alt="bannerImage" />
+            </SliderImg>
+            <SliderInner>
+              <InnerArea>
+                <Keyword bgcolor="#d62136">25%</Keyword>
+                <Keyword bgcolor="#000">사은품</Keyword>
+              </InnerArea>
+              <InnerArea>
+                <BannerText>자고 일어나면 촉촉쫀득!</BannerText>
+                <BannerBoldText>속탄력 콜라겐 앰플크림</BannerBoldText>
+              </InnerArea>
+              <InnerArea>
+                <LinePrice>39,000</LinePrice>
+                <Price>29,250</Price>
+              </InnerArea>
+            </SliderInner>
+          </Link>
         </Slide>
         <Slide>
           <SliderImg>

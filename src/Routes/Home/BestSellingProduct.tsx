@@ -120,7 +120,10 @@ const SlideWrap = styled.div`
   transform: translateX(-50%);
   width: 100%;
   margin-top: 3.6rem;
-  /* overflow: hidden; */
+  padding: 1rem 0;
+  /*  스크롤터짐 방지 */
+  overflow: hidden;
+
   &::before {
     content: "";
     position: absolute;
@@ -160,7 +163,7 @@ const Slide = styled(SwiperSlide)`
 
 const Item = styled.li`
   width: 100%;
-  height: 48rem;
+  height: 42rem;
   border-radius: 0.5rem;
   &:hover {
     outline: 1px solid #118168;
@@ -262,7 +265,7 @@ const ImgArea = styled.div`
 `;
 
 const Contents = styled.div`
-  height: 14rem;
+  height: 10rem;
   padding: 2rem 2.4rem 0 2.4rem;
 `;
 

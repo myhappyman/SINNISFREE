@@ -40,6 +40,9 @@ export const RefreshIcon = () => require("./assets/imgs/icon_refresh.png");
  */
 export const AddMoreIcon = () => require("./assets/imgs/icon_add_more.png");
 
+export const MemberShipIcon = (num: number) =>
+  require(`./assets/imgs/MemberShipIcons/icon_mb${num}.png`);
+
 /**
  * banner Image
  * @param num 01~10까지

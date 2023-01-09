@@ -305,7 +305,7 @@ function BestSellingProduct() {
   const nextRef = useRef<HTMLDivElement>(null);
   const [activeSlide, setActiveSlide] = useState(1);
   const slideChange = (e: SwiperCore) => {
-    setActiveSlide(e.activeIndex);
+    setActiveSlide(e.realIndex);
   };
 
   const TenNumber = (num: number) => (num < 10 ? `0${num}` : num);

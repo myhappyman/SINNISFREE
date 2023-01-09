@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import BannerSlider from "./Home/BannerSlider";
 import BestSellingProduct from "./Home/BestSellingProduct";
-import CustomerReview from "./Home/CustomerReview";
 import MembershipBenefits from "./Home/MembershipBenefits";
 import NewProducts from "./Home/NewProducts";
 import NowShopping from "./Home/NowShopping";
@@ -24,7 +23,6 @@ function Home() {
         <RecommendCustomers />
         <BestSellingProduct />
         <NewProducts />
-        <CustomerReview />
         <MembershipBenefits />
       </section>
     </Main>

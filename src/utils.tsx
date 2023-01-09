@@ -60,5 +60,8 @@ export const RecommendImages = (imgFileName: string) =>
 export const BestSellingImages = (imgFileName: string) =>
   require(`./assets/imgs/BestSelling/${imgFileName}`);
 
+export const NewItemsImg = (imgFileName: string) =>
+  require(`./assets/imgs/NewItems/${imgFileName}`);
+
 export const moneyUnit = (num: number) =>
   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

@@ -1,11 +1,9 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  position: relative;
   min-width: 128rem;
   max-width: 192rem;
   padding-top: 7.5rem;
-  height: 79rem;
   background-color: #fafafa;
 `;
 

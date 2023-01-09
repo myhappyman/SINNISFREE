@@ -33,14 +33,11 @@ const Title = styled.div`
   h1 {
     font-size: 3.2rem;
   }
-  a {
-    font-size: 1.6rem;
-  }
 `;
 
 const AddView = styled(Link)`
   position: absolute;
-  top: 2.5rem;
+  top: 1.8rem;
   right: 0;
   padding: 0 3rem 0.2rem 0;
   font-size: 1.6rem;

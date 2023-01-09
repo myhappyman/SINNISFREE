@@ -124,9 +124,8 @@ function BannerSlider() {
   const [activeSlide, setActiveSlide] = useState(1);
   const SliderLen = 10;
   const slideChange = (e: SwiperCore) => {
-    setActiveSlide(e.activeIndex);
+    setActiveSlide(e.realIndex + 1); // activeIndex는 제대로 동작이 안됨. realIndex로 처리
   };
-  // const slideChange = (e: any) => setActiveSlide(e.activeIndex);
 
   const [prevHover, setPrevHover] = useState(false);
   const [nextHover, setNextHover] = useState(false);

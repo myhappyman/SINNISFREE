@@ -24,19 +24,17 @@ const SlideControls = styled.div`
   top: 58%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: space-between;
   width: 148rem;
   z-index: 10;
 `;
 
 const SlideBtn = styled.div<{ mouseHover: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  text-align: center;
   width: ${(props) => (props.mouseHover ? "8rem" : "4rem")};
   height: 4rem;
   border-radius: 4rem;
+  line-height: 3.6rem;
   background: rgba(0, 0, 0, 0.3);
   font-size: 1.4rem;
   color: #fff;
@@ -45,7 +43,17 @@ const SlideBtn = styled.div<{ mouseHover: boolean }>`
   &:hover {
     background: rgba(0, 0, 0, 0.7);
   }
+  &.left {
+    left: 10px;
+    right: auto;
+  }
+  &.right {
+    left: auto;
+    right: 10px;
+  }
   .icon {
+    display: inline-block;
+    vertical-align: middle;
     font-size: 2rem;
   }
 `;
@@ -53,6 +61,8 @@ const SlideBtn = styled.div<{ mouseHover: boolean }>`
 const SlidePageInfo = styled.div`
   padding-bottom: 0.3rem;
   font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
 `;
 
 const SliderImg = styled.div`
@@ -139,6 +149,7 @@ function BannerSlider() {
           onMouseLeave={() => setPrevHover(false)}
           ref={prevRef}
           mouseHover={prevHover}
+          className="left"
         >
           <AiOutlineLeft className="icon" />
           {prevHover && (
@@ -152,6 +163,7 @@ function BannerSlider() {
           onMouseLeave={() => setNextHover(false)}
           ref={nextRef}
           mouseHover={nextHover}
+          className="right"
         >
           {nextHover && (
             <SlidePageInfo>

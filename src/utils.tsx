@@ -48,6 +48,11 @@ export const AddMoreIcon = () => require("./assets/imgs/icon_add_more.png");
 export const MemberShipIcon = (num: number) =>
   require(`./assets/imgs/MemberShipIcons/icon_mb${num}.png`);
 
+export const CheckBox = (on: boolean) =>
+  on
+    ? require(`./assets/imgs/checkbox_on.png`)
+    : require(`./assets/imgs/checkbox_off.png`);
+
 /**
  * banner Image
  * @param num 01~10까지

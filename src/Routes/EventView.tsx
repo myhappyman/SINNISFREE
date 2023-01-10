@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -7,7 +8,7 @@ const Wrapper = styled.div`
   position: relative;
   min-width: 128rem;
   max-width: 192rem;
-  padding-top: 7.5rem;
+  padding-top: 1rem;
   background-color: #fff;
 `;
 
@@ -17,9 +18,70 @@ const Inner = styled.div`
   margin: 0 auto;
 `;
 
-const TopCategory = styled.span``;
+const TopCategory = styled.span`
+  position: relative;
+  padding: 1.5rem 0 1.7rem;
+  font-size: 1.4rem;
+`;
+
+const Event = styled.span`
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 15px;
+    background: url(${require("../assets/imgs/arw_loc_btn.png")}) no-repeat 99%
+      50%;
+  }
+`;
+
+const EvnetList = styled(motion.ul)`
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  max-height: 350px;
+  overflow: hidden;
+  top: 3.2rem;
+  left: 0rem;
+  padding: 1.8rem 2.4rem;
+  background: #fff;
+  border: 1px solid #a7a7a7;
+  z-index: 9;
+  li {
+    margin: 1rem 0;
+    width: 9.2rem;
+    font-size: 1.2rem;
+    color: #777;
+    cursor: pointer;
+    &:hover {
+      font-weight: 700;
+      color: #222;
+    }
+  }
+`;
+
+const Title = styled.div`
+  margin: 9rem 0 2.8rem;
+  text-align: left;
+  color: #222;
+  font-size: 3.6rem;
+  font-weight: bold;
+`;
+
+const WriteDate = styled.div`
+  display: block;
+  font-size: 1.4rem;
+  color: #888;
+`;
 
 const Contents = styled.div`
+  padding-top: 7.5rem;
   width: 100%;
 `;
 
@@ -144,14 +206,61 @@ const Black = styled.span`
   font-weight: 500;
 `;
 
+const eventVariants = {
+  enter: {
+    opacity: 1,
+    transition: {
+      duration: 0.2,
+    },
+    display: "block",
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+    },
+    transitionEnd: {
+      display: "none",
+    },
+  },
+};
+
 function EventView() {
   const { eventId } = useParams();
   const [open, setOpen] = useState(false);
   const toggleFooter = () => setOpen((prev) => !prev);
+  const [hover, setHover] = useState(false);
   return (
     <Wrapper>
       <Inner>
-        <TopCategory>홈 &gt; 이벤트</TopCategory>
+        <TopCategory>
+          <span>
+            홈 &gt;{" "}
+            <Event
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+            >
+              이벤트
+              <EvnetList
+                initial="exit"
+                animate={hover ? "enter" : "exit"}
+                variants={eventVariants}
+              >
+                <li>카테고리</li>
+                <li>FOR U</li>
+                <li>특가</li>
+                <li>이벤트</li>
+                <li>ABOUT US</li>
+                <li>고객센터</li>
+                <li>마이페이지</li>
+                <li>공병수거 캠페인</li>
+                <li>멤버십</li>
+              </EvnetList>
+            </Event>
+          </span>
+        </TopCategory>
+        <Title>23년 새해엔 블랙티앰플로 쫀쫀피부 완성! </Title>
+        <WriteDate>2023-01-01 - 2023-01-31</WriteDate>
         <Contents>
           <ContImg
             imgSrc={EventPageImages(`${eventId}_top.jpg`)}

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MainLogoImg } from "../../../utils";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 const HeaderArea = styled.div<{ padding: string }>`
   min-width: 128rem;
@@ -139,7 +140,7 @@ function SearchForm() {
 
   const [searchMode, setSearchMode] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { register, handleSubmit } = useForm<IForm>({
+  const { register } = useForm<IForm>({
     defaultValues: {
       keyword: "",
     },
@@ -155,7 +156,7 @@ function SearchForm() {
       }
     },
   });
-  console.log();
+
   const changeSearchMode = () => {
     inputRef.current?.focus();
     setSearchMode(true);
@@ -165,7 +166,9 @@ function SearchForm() {
     <SearchHeader padding={"2.3rem 0 0 0"}>
       <LHeader>
         <LogoArea>
-          <img src={MainLogoImg()} alt="mainlogo"></img>
+          <Link to="/">
+            <img src={MainLogoImg()} alt="mainlogo" />
+          </Link>
         </LogoArea>
         <SearchArea>
           <input

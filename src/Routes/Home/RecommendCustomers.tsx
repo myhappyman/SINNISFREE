@@ -199,7 +199,11 @@ const Contents = styled.div`
   color: #333;
 `;
 
-const Name = styled.div``;
+const Name = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
 const TagArea = styled.div`
   margin-top: 1rem;
   font-size: 1.2rem;

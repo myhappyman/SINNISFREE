@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SINNISFREE/static/css/main.46cef12e.css",
-    "main.js": "/SINNISFREE/static/js/main.dcf22b3f.js",
+    "main.js": "/SINNISFREE/static/js/main.af1f1c0b.js",
     "static/media/gif.gif": "/SINNISFREE/static/media/gif.2860dae758bf0482e1a6.gif",
     "static/media/banner_5.jpg": "/SINNISFREE/static/media/banner_5.6e7498f9fa6203b631b3.jpg",
     "static/media/rdIB_8.jpg": "/SINNISFREE/static/media/rdIB_8.1555a9262c052953f392.jpg",
@@ -96,10 +96,10 @@
     "static/media/rtsF_7.jpg": "/SINNISFREE/static/media/rtsF_7.69348fe7219d4fa59f64.jpg",
     "index.html": "/SINNISFREE/index.html",
     "main.46cef12e.css.map": "/SINNISFREE/static/css/main.46cef12e.css.map",
-    "main.dcf22b3f.js.map": "/SINNISFREE/static/js/main.dcf22b3f.js.map"
+    "main.af1f1c0b.js.map": "/SINNISFREE/static/js/main.af1f1c0b.js.map"
   },
   "entrypoints": [
     "static/css/main.46cef12e.css",
-    "static/js/main.dcf22b3f.js"
+    "static/js/main.af1f1c0b.js"
   ]
 }

@@ -12,9 +12,97 @@ import { DropOpen, RecommendImages, RefreshIcon } from "../../utils";
 import RecommendDatas from "../Datas/RecommendDatas";
 import RecommendModal from "./RecommendModal";
 
+function RecommendCustomers() {
+  const type = useRecoilValue(SkinTypes);
+  const concerns = useRecoilValue(SkinConcerns);
+  const [modalOpen, setModalOpen] = useRecoilState(SkinModalState);
+  const toggleModal = () => {
+    setModalOpen((prev) => !prev);
+  };
+  const length = RecommendDatas().length;
+  const offset = 6;
+  const [page, setPage] = useState(0);
+  const nextPage = () =>
+    setPage((prev) => (prev + 1 >= length / offset ? 0 : prev + 1));
+  return (
+    <Wrapper>
+      <Top>
+        <Inner>
+          <TitleArea>
+            <Title>
+              <ForU>for U</ForU>고객님에게 딱이에요!
+            </Title>
+          </TitleArea>
+          <RecommendSelector>
+            <SelectorBtn onClick={toggleModal} afterImg={DropOpen()}>
+              {type}
+            </SelectorBtn>{" "}
+            피부와
+            <SelectorBtn onClick={toggleModal} afterImg={DropOpen()}>
+              {concerns.map((c, idx) =>
+                idx + 1 === concerns.length ? c : `${c} / `
+              )}
+            </SelectorBtn>
+            고민에 추천드려요
+          </RecommendSelector>
+        </Inner>
+      </Top>
+      <Inner>
+        <ItemArea>
+          {RecommendDatas() &&
+            RecommendDatas()
+              .splice(page * offset, page * offset + offset)
+              .map((data, idx) => (
+                <Items key={data.id + idx}>
+                  <ImageArea>
+                    <Imgs>
+                      <Img
+                        className="front"
+                        src={RecommendImages(data.frontImg || "")}
+                        alt={data.name}
+                      />
+                      <Img
+                        className="back"
+                        src={RecommendImages(data.backImg || "")}
+                        alt={data.name}
+                      />
+                    </Imgs>
+                    <ImgUtil>
+                      <AiOutlineFileAdd className="icon" />
+                      <AiOutlineHeart className="icon" />
+                      <AiOutlineShoppingCart className="icon" />
+                      <AiOutlineCreditCard className="icon" />
+                    </ImgUtil>
+                  </ImageArea>
+                  <Contents>
+                    <Name>{data.name}</Name>
+                    <TagArea>
+                      {data.hashTag.map((hashTag, idx) => (
+                        <HashTag key={`hashTag${idx}`}>#{hashTag}</HashTag>
+                      ))}
+                    </TagArea>
+                  </Contents>
+                </Items>
+              ))}
+        </ItemArea>
+      </Inner>
+      <Footer>
+        <NextBtn onClick={nextPage}>
+          새로운 추천을 받고싶어요
+          <span>
+            <strong>{page + 1}</strong> / {length / offset}
+          </span>
+        </NextBtn>
+      </Footer>
+
+      {modalOpen ? <RecommendModal /> : null}
+    </Wrapper>
+  );
+}
+
+export default RecommendCustomers;
+
 const Wrapper = styled.div`
-  min-width: 128rem;
-  max-width: 192rem;
   background-color: #fff;
 `;
 
@@ -24,8 +112,8 @@ const Inner = styled.div`
 `;
 
 const Top = styled.div`
-  padding-top: 64px;
-  height: 336px;
+  padding-top: 6.4rem;
+  height: 33.6rem;
   background-image: linear-gradient(109deg, #7e45ea 17%, #2fc39b 88%);
 `;
 
@@ -204,10 +292,12 @@ const Name = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
+
 const TagArea = styled.div`
   margin-top: 1rem;
   font-size: 1.2rem;
 `;
+
 const HashTag = styled.span`
   display: inline-block;
   border: 1px solid #ccc;
@@ -253,93 +343,3 @@ const NextBtn = styled.button`
     }
   }
 `;
-
-function RecommendCustomers() {
-  const type = useRecoilValue(SkinTypes);
-  const concerns = useRecoilValue(SkinConcerns);
-  const [modalOpen, setModalOpen] = useRecoilState(SkinModalState);
-  const toggleModal = () => {
-    setModalOpen((prev) => !prev);
-  };
-  const length = RecommendDatas().length;
-  const offset = 6;
-  const [page, setPage] = useState(0);
-  const nextPage = () =>
-    setPage((prev) => (prev + 1 >= length / offset ? 0 : prev + 1));
-  return (
-    <Wrapper>
-      <Top>
-        <Inner>
-          <TitleArea>
-            <Title>
-              <ForU>for U</ForU>고객님에게 딱이에요!
-            </Title>
-          </TitleArea>
-          <RecommendSelector>
-            <SelectorBtn onClick={toggleModal} afterImg={DropOpen()}>
-              {type}
-            </SelectorBtn>{" "}
-            피부와
-            <SelectorBtn onClick={toggleModal} afterImg={DropOpen()}>
-              {concerns.map((c, idx) =>
-                idx + 1 === concerns.length ? c : `${c} / `
-              )}
-            </SelectorBtn>
-            고민에 추천드려요
-          </RecommendSelector>
-        </Inner>
-      </Top>
-      <Inner>
-        <ItemArea>
-          {RecommendDatas() &&
-            RecommendDatas()
-              .splice(page * offset, page * offset + offset)
-              .map((data, idx) => (
-                <Items key={data.id + idx}>
-                  <ImageArea>
-                    <Imgs>
-                      <Img
-                        className="front"
-                        src={RecommendImages(data.frontImg || "")}
-                        alt={data.name}
-                      />
-                      <Img
-                        className="back"
-                        src={RecommendImages(data.backImg || "")}
-                        alt={data.name}
-                      />
-                    </Imgs>
-                    <ImgUtil>
-                      <AiOutlineFileAdd className="icon" />
-                      <AiOutlineHeart className="icon" />
-                      <AiOutlineShoppingCart className="icon" />
-                      <AiOutlineCreditCard className="icon" />
-                    </ImgUtil>
-                  </ImageArea>
-                  <Contents>
-                    <Name>{data.name}</Name>
-                    <TagArea>
-                      {data.hashTag.map((hashTag, idx) => (
-                        <HashTag key={`hashTag${idx}`}>#{hashTag}</HashTag>
-                      ))}
-                    </TagArea>
-                  </Contents>
-                </Items>
-              ))}
-        </ItemArea>
-      </Inner>
-      <Footer>
-        <NextBtn onClick={nextPage}>
-          새로운 추천을 받고싶어요
-          <span>
-            <strong>{page + 1}</strong> / {length / offset}
-          </span>
-        </NextBtn>
-      </Footer>
-
-      {modalOpen ? <RecommendModal /> : null}
-    </Wrapper>
-  );
-}
-
-export default RecommendCustomers;

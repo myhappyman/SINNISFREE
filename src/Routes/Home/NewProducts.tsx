@@ -8,10 +8,99 @@ import SwiperCore, { Navigation } from "swiper";
 import "swiper/css";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
+SwiperCore.use([Navigation]);
+
+function NewProducts() {
+  const prevRef = useRef<HTMLDivElement>(null);
+  const nextRef = useRef<HTMLDivElement>(null);
+
+  const [activePage, setActivePage] = useState(1);
+  const slideChange = (e: SwiperCore) => {
+    setActivePage(e.activeIndex);
+  };
+
+  const [cover, setCover] = useState([""]);
+  useEffect(() => {
+    const coverLen = Math.ceil(NewItemDatas().length / 4);
+    setCover([]);
+    for (let i = 0; i < coverLen; i++) {
+      setCover((prev) => [...(prev || []), "newCover"]);
+    }
+  }, []);
+
+  return (
+    <Wrapper>
+      <Title>
+        <h1>주목해야 할 신제품 추천</h1>
+        <AddView to="#">신제품 바로가기</AddView>
+      </Title>
+
+      <SlideControls>
+        <SlideBtn ref={prevRef}>
+          <AiOutlineLeft className="icon" />
+        </SlideBtn>
+        <SlideBtn ref={nextRef}>
+          <AiOutlineRight className="icon" />
+        </SlideBtn>
+      </SlideControls>
+
+      <SlideWrap>
+        <Swiper
+          slidesPerView={1}
+          spaceBetween={8}
+          grabCursor={true}
+          loop={true}
+          pagination={{ clickable: true }}
+          navigation={{
+            prevEl: prevRef.current ? prevRef.current : undefined,
+            nextEl: nextRef.current ? nextRef.current : undefined,
+          }}
+          onBeforeInit={(swiper) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            // eslint-disable-next-line no-param-reassign
+            swiper.params.navigation.prevEl = prevRef.current;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            // eslint-disable-next-line no-param-reassign
+            swiper.params.navigation.nextEl = nextRef.current;
+            swiper.activeIndex = activePage;
+            swiper.navigation.update();
+          }}
+          onSlideChange={slideChange}
+          style={{
+            position: "relative",
+            display: "flex",
+          }}
+        >
+          {cover.map((c, idx) => (
+            <Slide key={`cover${idx}`}>
+              <Products>
+                {NewItemDatas() &&
+                  NewItemDatas()
+                    .splice(idx * 4, 4)
+                    .map((item) => (
+                      <Product key={item.id}>
+                        <Img src={NewItemsImg(item.frontImg)} />
+                        <Contents>
+                          <Name>{item.name}</Name>
+                          <Comments>{item.comment}</Comments>
+                        </Contents>
+                      </Product>
+                    ))}
+              </Products>
+            </Slide>
+          ))}
+        </Swiper>
+      </SlideWrap>
+    </Wrapper>
+  );
+}
+
+export default NewProducts;
+
 const Wrapper = styled.div`
   position: relative;
-  min-width: 128rem;
-  max-width: 192rem;
   padding-top: 7.5rem;
   background-color: #fff;
 `;
@@ -123,94 +212,3 @@ const Comments = styled.p`
   font-weight: 700;
   color: #999;
 `;
-
-SwiperCore.use([Navigation]);
-
-function NewProducts() {
-  const prevRef = useRef<HTMLDivElement>(null);
-  const nextRef = useRef<HTMLDivElement>(null);
-
-  const [activePage, setActivePage] = useState(1);
-  const slideChange = (e: SwiperCore) => {
-    setActivePage(e.activeIndex);
-  };
-
-  const [cover, setCover] = useState([""]);
-  useEffect(() => {
-    const coverLen = Math.ceil(NewItemDatas().length / 4);
-    setCover([]);
-    for (let i = 0; i < coverLen; i++) {
-      setCover((prev) => [...(prev || []), "newCover"]);
-    }
-  }, []);
-
-  return (
-    <Wrapper>
-      <Title>
-        <h1>주목해야 할 신제품 추천</h1>
-        <AddView to="#">신제품 바로가기</AddView>
-      </Title>
-
-      <SlideControls>
-        <SlideBtn ref={prevRef}>
-          <AiOutlineLeft className="icon" />
-        </SlideBtn>
-        <SlideBtn ref={nextRef}>
-          <AiOutlineRight className="icon" />
-        </SlideBtn>
-      </SlideControls>
-
-      <SlideWrap>
-        <Swiper
-          slidesPerView={1}
-          spaceBetween={8}
-          grabCursor={true}
-          loop={true}
-          pagination={{ clickable: true }}
-          navigation={{
-            prevEl: prevRef.current ? prevRef.current : undefined,
-            nextEl: nextRef.current ? nextRef.current : undefined,
-          }}
-          onBeforeInit={(swiper) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            // eslint-disable-next-line no-param-reassign
-            swiper.params.navigation.prevEl = prevRef.current;
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            // eslint-disable-next-line no-param-reassign
-            swiper.params.navigation.nextEl = nextRef.current;
-            swiper.activeIndex = activePage;
-            swiper.navigation.update();
-          }}
-          onSlideChange={slideChange}
-          style={{
-            position: "relative",
-            display: "flex",
-          }}
-        >
-          {cover.map((c, idx) => (
-            <Slide key={`cover${idx}`}>
-              <Products>
-                {NewItemDatas() &&
-                  NewItemDatas()
-                    .splice(idx * 4, 4)
-                    .map((item) => (
-                      <Product key={item.id}>
-                        <Img src={NewItemsImg(item.frontImg)} />
-                        <Contents>
-                          <Name>{item.name}</Name>
-                          <Comments>{item.comment}</Comments>
-                        </Contents>
-                      </Product>
-                    ))}
-              </Products>
-            </Slide>
-          ))}
-        </Swiper>
-      </SlideWrap>
-    </Wrapper>
-  );
-}
-
-export default NewProducts;

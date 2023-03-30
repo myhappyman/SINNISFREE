@@ -7,126 +7,6 @@ import { useState, useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-const SliderArea = styled.div`
-  min-width: 128rem;
-  max-width: 192rem;
-  background-color: #fff;
-`;
-
-const Slide = styled(SwiperSlide)`
-  position: relative;
-  min-width: 128rem;
-  height: 64rem;
-`;
-
-const SlideControls = styled.div`
-  position: absolute;
-  top: 58%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 148rem;
-  z-index: 10;
-`;
-
-const SlideBtn = styled.div<{ mouseHover: boolean }>`
-  position: absolute;
-  text-align: center;
-  width: ${(props) => (props.mouseHover ? "8rem" : "4rem")};
-  height: 4rem;
-  border-radius: 4rem;
-  line-height: 3.6rem;
-  background: rgba(0, 0, 0, 0.3);
-  font-size: 1.4rem;
-  color: #fff;
-  cursor: pointer;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.7);
-  }
-  &.left {
-    left: 10px;
-    right: auto;
-  }
-  &.right {
-    left: auto;
-    right: 10px;
-  }
-  .icon {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 2rem;
-  }
-`;
-
-const SlidePageInfo = styled.div`
-  padding-bottom: 0.3rem;
-  font-weight: bold;
-  display: inline-block;
-  vertical-align: middle;
-`;
-
-const SliderImg = styled.div`
-  position: absolute;
-`;
-
-const SliderInner = styled.div`
-  position: relative;
-  top: 43%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: left;
-  justify-content: center;
-  flex-direction: column;
-  margin-left: 20rem;
-  width: 128rem;
-  margin: 0 auto;
-`;
-
-const InnerArea = styled.div`
-  & ~ & {
-    margin-top: 1rem;
-  }
-`;
-
-const Keyword = styled.span<{ bgcolor: string }>`
-  display: inline-block;
-  padding: 0.1rem 0.8rem;
-  min-width: 4.9rem;
-  background-color: ${(props) => props.bgcolor};
-  border-radius: 0.5rem;
-  color: #fff;
-  font-size: 1.6rem;
-  line-height: 2rem;
-  text-align: center;
-  & ~ & {
-    margin-left: 1rem;
-  }
-`;
-
-const BannerText = styled.span`
-  display: block;
-  font-size: 4rem;
-  color: #222;
-`;
-
-const BannerBoldText = styled(BannerText)`
-  font-weight: 700;
-`;
-
-const Price = styled.span`
-  color: #222;
-  font-size: 2.8rem;
-  font-weight: 700;
-  & ~ & {
-    margin-left: 0.8rem;
-  }
-`;
-
-const LinePrice = styled(Price)`
-  text-decoration: line-through;
-  font-weight: 400;
-`;
-
 SwiperCore.use([Navigation, Autoplay]);
 
 function BannerSlider() {
@@ -374,3 +254,129 @@ function BannerSlider() {
 }
 
 export default BannerSlider;
+
+const SliderArea = styled.div`
+  background-color: #fff;
+`;
+
+const Slide = styled(SwiperSlide)`
+  position: relative;
+  min-width: 128rem;
+  height: 64rem;
+`;
+
+const SlideControls = styled.div`
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140rem;
+  z-index: 10;
+
+  @media screen and (max-width: 1500px) {
+    width: 128rem;
+  }
+
+  @media screen and (max-width: 1380px) {
+    width: 114rem;
+  }
+`;
+
+const SlideBtn = styled.div<{ mouseHover: boolean }>`
+  position: absolute;
+  text-align: center;
+  width: ${(props) => (props.mouseHover ? "8rem" : "4rem")};
+  height: 4rem;
+  border-radius: 4rem;
+  line-height: 3.6rem;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  &.left {
+    left: -4rem;
+    right: auto;
+  }
+  &.right {
+    right: -4rem;
+    left: auto;
+  }
+  .icon {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 2rem;
+  }
+`;
+
+const SlidePageInfo = styled.div`
+  padding-bottom: 0.3rem;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+`;
+
+const SliderImg = styled.div`
+  position: absolute;
+`;
+
+const SliderInner = styled.div`
+  position: relative;
+  top: 43%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 20rem;
+  width: 128rem;
+  margin: 0 auto;
+`;
+
+const InnerArea = styled.div`
+  & ~ & {
+    margin-top: 1rem;
+  }
+`;
+
+const Keyword = styled.span<{ bgcolor: string }>`
+  display: inline-block;
+  padding: 0.1rem 0.8rem;
+  min-width: 4.9rem;
+  background-color: ${(props) => props.bgcolor};
+  border-radius: 0.5rem;
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  text-align: center;
+  & ~ & {
+    margin-left: 1rem;
+  }
+`;
+
+const BannerText = styled.span`
+  display: block;
+  font-size: 4rem;
+  color: #222;
+`;
+
+const BannerBoldText = styled(BannerText)`
+  font-weight: 700;
+`;
+
+const Price = styled.span`
+  color: #222;
+  font-size: 2.8rem;
+  font-weight: 700;
+  & ~ & {
+    margin-left: 0.8rem;
+  }
+`;
+
+const LinePrice = styled(Price)`
+  text-decoration: line-through;
+  font-weight: 400;
+`;

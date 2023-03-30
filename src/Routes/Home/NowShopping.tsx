@@ -14,10 +14,145 @@ import { AddMoreIcon, moneyUnit, NowShoppingImg } from "../../utils";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+function NowShopping() {
+  const SlideCnt = 8;
+  const dataLen = Math.floor(data().length / 8);
+
+  const [leaving, setLeaving] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isRight, setIsRight] = useState(1); // left: -1, right: 1
+
+  const slideChange = (num: number) => {
+    if (leaving) return;
+    setLeaving(true);
+    setIsRight(num);
+    if (num > 0) {
+      setActiveSlide((prev) => (prev + 1 === dataLen ? 0 : prev + 1));
+    } else {
+      setActiveSlide((prev) => (prev === 0 ? dataLen - 1 : prev - 1));
+    }
+  };
+
+  return (
+    <Wrapper>
+      <Inner>
+        <Title>
+          <h1>지금이 쇼핑찬스</h1>
+          <AddView to="#">특가 바로가기</AddView>
+        </Title>
+        <SlideControls>
+          <SlideBtn onClick={() => slideChange(-1)} className="left">
+            <AiOutlineLeft className="icon" />
+          </SlideBtn>
+          <SlideBtn onClick={() => slideChange(1)} className="right">
+            <AiOutlineRight className="icon" />
+          </SlideBtn>
+        </SlideControls>
+        <AnimatePresence
+          initial={false}
+          onExitComplete={() => setLeaving(false)}
+          custom={isRight}
+        >
+          <GridArea
+            variants={rowVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            // transition={{ type: "tween", duration: 0.6 }}
+            transition={{
+              x: { type: "tween", stiffness: 600, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            key={activeSlide}
+          >
+            {data() &&
+              data().length > 0 &&
+              data()
+                .slice(
+                  activeSlide * SlideCnt,
+                  SlideCnt * activeSlide + SlideCnt
+                )
+                .map((shopping) => {
+                  return (
+                    <Item key={shopping.id}>
+                      <ImgArea>
+                        <Imgs>
+                          <Img
+                            className="front"
+                            src={NowShoppingImg(shopping.frontImg || "")}
+                            alt={shopping.name}
+                          />
+                          <Img
+                            className="back"
+                            src={NowShoppingImg(shopping.backImg || "")}
+                            alt={shopping.name}
+                          />
+                        </Imgs>
+                        <ImgUtil>
+                          <AiOutlineFileAdd className="icon" />
+                          <AiOutlineHeart className="icon" />
+                          <AiOutlineShoppingCart className="icon" />
+                          <AiOutlineCreditCard className="icon" />
+                        </ImgUtil>
+                      </ImgArea>
+                      <Contents>
+                        <Name>{shopping.name}</Name>
+                        <Price>
+                          <NowPrice>
+                            {moneyUnit(shopping.price.nowPrice)}
+                          </NowPrice>
+                          {shopping.price.oriPrice && (
+                            <OriPrice>
+                              {moneyUnit(shopping.price.oriPrice)}
+                            </OriPrice>
+                          )}
+                          {shopping.price.disCountRate && (
+                            <DisCountRate>
+                              {shopping.price.disCountRate}%
+                            </DisCountRate>
+                          )}
+                        </Price>
+                        <Grade>
+                          <AiFillStar color={"#118168"} />
+                          {shopping.star}(
+                          {moneyUnit(shopping.starPointNumberOfPeople)})
+                        </Grade>
+                      </Contents>
+                    </Item>
+                  );
+                })}
+          </GridArea>
+        </AnimatePresence>
+      </Inner>
+    </Wrapper>
+  );
+}
+
+export default NowShopping;
+
+const rowVariants = {
+  hidden: (right: number) => {
+    return {
+      x: right === 1 ? 2000 : -2000,
+      opacity: 0,
+    };
+  },
+  visible: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (right: number) => {
+    return {
+      zIndex: 0,
+      x: right === 1 ? 2000 : -2000,
+      opacity: 0,
+    };
+  },
+};
+
 const Wrapper = styled.div`
   position: relative;
-  min-width: 128rem;
-  max-width: 192rem;
   background-color: #fff;
 `;
 
@@ -51,19 +186,25 @@ const SlideControls = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: space-between;
-  width: 158rem;
+  width: 138rem;
   z-index: 10;
+
+  @media screen and (max-width: 1500px) {
+    width: 128rem;
+  }
+
+  @media screen and (max-width: 1380px) {
+    width: 114rem;
+  }
 `;
 
 const SlideBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  text-align: center;
   width: 5rem;
   height: 5rem;
   border-radius: 5rem;
+  line-height: 4.4rem;
   background: rgba(0, 0, 0, 0.3);
   font-size: 1.6rem;
   color: #fff;
@@ -72,7 +213,17 @@ const SlideBtn = styled.div`
   &:hover {
     background: rgba(0, 0, 0, 0.7);
   }
+  &.left {
+    left: -5rem;
+    right: auto;
+  }
+  &.right {
+    right: -5rem;
+    left: auto;
+  }
   .icon {
+    display: inline-block;
+    vertical-align: middle;
     font-size: 2rem;
   }
 `;
@@ -201,153 +352,3 @@ const Grade = styled.div`
   font-size: 1.4rem;
   color: #777;
 `;
-
-const rowVariants = {
-  // hidden: (right: number) => {
-  //   return {
-  //     x: right === 1 ? 1280 + 5 : -1280 - 5,
-  //   };
-  // },
-  // visible: {
-  //   x: 0,
-  // },
-  // exit: (right: number) => {
-  //   return {
-  //     x: right === 1 ? -1280 - 5 : 1280 + 5,
-  //   };
-  // },
-  hidden: (right: number) => {
-    return {
-      x: right === 1 ? 2000 : -2000,
-      opacity: 0,
-    };
-  },
-  visible: {
-    zIndex: 1,
-    x: 0,
-    opacity: 1,
-  },
-  exit: (right: number) => {
-    return {
-      zIndex: 0,
-      x: right === 1 ? 2000 : -2000,
-      opacity: 0,
-    };
-  },
-};
-
-function NowShopping() {
-  const SlideCnt = 8;
-  const dataLen = Math.floor(data().length / 8);
-
-  const [leaving, setLeaving] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [isRight, setIsRight] = useState(1); // left: -1, right: 1
-
-  const slideChange = (num: number) => {
-    if (leaving) return;
-    setLeaving(true);
-    setIsRight(num);
-    if (num > 0) {
-      setActiveSlide((prev) => (prev + 1 === dataLen ? 0 : prev + 1));
-    } else {
-      setActiveSlide((prev) => (prev === 0 ? dataLen - 1 : prev - 1));
-    }
-  };
-
-  return (
-    <Wrapper>
-      <Inner>
-        <Title>
-          <h1>지금이 쇼핑찬스</h1>
-          <AddView to="#">특가 바로가기</AddView>
-        </Title>
-        <SlideControls>
-          <SlideBtn onClick={() => slideChange(-1)}>
-            <AiOutlineLeft className="icon" />
-          </SlideBtn>
-          <SlideBtn onClick={() => slideChange(1)}>
-            <AiOutlineRight className="icon" />
-          </SlideBtn>
-        </SlideControls>
-        <AnimatePresence
-          initial={false}
-          onExitComplete={() => setLeaving(false)}
-          custom={isRight}
-        >
-          <GridArea
-            variants={rowVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            // transition={{ type: "tween", duration: 0.6 }}
-            transition={{
-              x: { type: "tween", stiffness: 600, damping: 30 },
-              opacity: { duration: 0.2 },
-            }}
-            key={activeSlide}
-          >
-            {data() &&
-              data().length > 0 &&
-              data()
-                .slice(
-                  activeSlide * SlideCnt,
-                  SlideCnt * activeSlide + SlideCnt
-                )
-                .map((shopping) => {
-                  return (
-                    <Item key={shopping.id}>
-                      <ImgArea>
-                        <Imgs>
-                          <Img
-                            className="front"
-                            src={NowShoppingImg(shopping.frontImg || "")}
-                            alt={shopping.name}
-                          />
-                          <Img
-                            className="back"
-                            src={NowShoppingImg(shopping.backImg || "")}
-                            alt={shopping.name}
-                          />
-                        </Imgs>
-                        <ImgUtil>
-                          <AiOutlineFileAdd className="icon" />
-                          <AiOutlineHeart className="icon" />
-                          <AiOutlineShoppingCart className="icon" />
-                          <AiOutlineCreditCard className="icon" />
-                        </ImgUtil>
-                      </ImgArea>
-                      <Contents>
-                        <Name>{shopping.name}</Name>
-                        <Price>
-                          <NowPrice>
-                            {moneyUnit(shopping.price.nowPrice)}
-                          </NowPrice>
-                          {shopping.price.oriPrice && (
-                            <OriPrice>
-                              {moneyUnit(shopping.price.oriPrice)}
-                            </OriPrice>
-                          )}
-                          {shopping.price.disCountRate && (
-                            <DisCountRate>
-                              {shopping.price.disCountRate}%
-                            </DisCountRate>
-                          )}
-                        </Price>
-                        <Grade>
-                          <AiFillStar color={"#118168"} />
-                          {shopping.star}(
-                          {moneyUnit(shopping.starPointNumberOfPeople)})
-                        </Grade>
-                      </Contents>
-                    </Item>
-                  );
-                })}
-          </GridArea>
-        </AnimatePresence>
-      </Inner>
-    </Wrapper>
-  );
-}
-
-export default NowShopping;

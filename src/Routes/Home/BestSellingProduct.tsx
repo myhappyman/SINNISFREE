@@ -15,10 +15,144 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Autoplay } from "swiper";
 import "swiper/css";
 
+SwiperCore.use([Navigation, Autoplay]);
+
+function BestSellingProduct() {
+  const [rank, setRank] = useState(0);
+  const changeRank = (rank: number) => {
+    setRank(rank);
+  };
+
+  const prevRef = useRef<HTMLDivElement>(null);
+  const nextRef = useRef<HTMLDivElement>(null);
+  const [activeSlide, setActiveSlide] = useState(1);
+  const slideChange = (e: SwiperCore) => {
+    setActiveSlide(e.realIndex);
+  };
+
+  const TenNumber = (num: number) => (num < 10 ? `0${num}` : num);
+  return (
+    <Wrapper>
+      <Inner>
+        <Header>
+          <Title>지금 제일 잘나가요</Title>
+          <Tabs>
+            <Rankings>
+              <Rank
+                onClick={() => changeRank(0)}
+                className={rank === 0 ? "selected" : ""}
+              >
+                실시간 판매 랭킹
+              </Rank>
+              <Rank
+                onClick={() => changeRank(1)}
+                className={rank === 1 ? "selected" : ""}
+              >
+                실시간 조회 랭킹
+              </Rank>
+            </Rankings>
+            <AddView to="#">베스트 더보기</AddView>
+          </Tabs>
+        </Header>
+
+        <SlideControls>
+          <SlideBtn ref={prevRef}>
+            <AiOutlineLeft className="icon" />
+          </SlideBtn>
+          <SlideBtn ref={nextRef}>
+            <AiOutlineRight className="icon" />
+          </SlideBtn>
+        </SlideControls>
+
+        <SlideWrap>
+          <ProductList>
+            <Swiper
+              slidesPerView={6}
+              spaceBetween={8}
+              grabCursor={true}
+              loop={true}
+              pagination={{ clickable: true }}
+              navigation={{
+                prevEl: prevRef.current ? prevRef.current : undefined,
+                nextEl: nextRef.current ? nextRef.current : undefined,
+              }}
+              autoplay={{ delay: 3000 }}
+              onBeforeInit={(swiper) => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                // eslint-disable-next-line no-param-reassign
+                swiper.params.navigation.prevEl = prevRef.current;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                // eslint-disable-next-line no-param-reassign
+                swiper.params.navigation.nextEl = nextRef.current;
+                swiper.activeIndex = activeSlide;
+                swiper.navigation.update();
+              }}
+              onSlideChange={slideChange}
+              style={{
+                position: "relative",
+                display: "flex",
+              }}
+            >
+              {RealTimeSale() &&
+                RealTimeSale().map((sale, idx) => (
+                  <Slide key={sale.id}>
+                    <Item>
+                      <ImgArea>
+                        <ImgNumber className={idx < 3 ? "best" : ""}>
+                          {TenNumber(idx + 1)}
+                        </ImgNumber>
+                        <Imgs>
+                          <Img
+                            className="front"
+                            src={BestSellingImages(sale.frontImg || "")}
+                            alt={sale.name}
+                          />
+                          <Img
+                            className="back"
+                            src={BestSellingImages(sale.backImg || "")}
+                            alt={sale.name}
+                          />
+                        </Imgs>
+                        <ImgUtil>
+                          <AiOutlineFileAdd className="icon" />
+                          <AiOutlineHeart className="icon" />
+                          <AiOutlineShoppingCart className="icon" />
+                          <AiOutlineCreditCard className="icon" />
+                        </ImgUtil>
+                      </ImgArea>
+                      <Contents>
+                        <Name>{sale.name}</Name>
+                        <Price>
+                          <NowPrice>{moneyUnit(sale.price.nowPrice)}</NowPrice>
+                          {sale.price.oriPrice && (
+                            <OriPrice>
+                              {moneyUnit(sale.price.oriPrice)}
+                            </OriPrice>
+                          )}
+                          {sale.price.disCountRate && (
+                            <DisCountRate>
+                              {sale.price.disCountRate}%
+                            </DisCountRate>
+                          )}
+                        </Price>
+                      </Contents>
+                    </Item>
+                  </Slide>
+                ))}
+            </Swiper>
+          </ProductList>
+        </SlideWrap>
+      </Inner>
+    </Wrapper>
+  );
+}
+
+export default BestSellingProduct;
+
 const Wrapper = styled.div`
   position: relative;
-  min-width: 128rem;
-  max-width: 192rem;
   padding-top: 7.5rem;
   height: 79rem;
   background-color: #fafafa;
@@ -295,139 +429,3 @@ const DisCountRate = styled.span`
   font-size: 2.6rem;
   color: #d62136;
 `;
-
-SwiperCore.use([Navigation, Autoplay]);
-
-function BestSellingProduct() {
-  const [rank, setRank] = useState(0);
-  const changeRank = (rank: number) => {
-    setRank(rank);
-  };
-
-  const prevRef = useRef<HTMLDivElement>(null);
-  const nextRef = useRef<HTMLDivElement>(null);
-  const [activeSlide, setActiveSlide] = useState(1);
-  const slideChange = (e: SwiperCore) => {
-    setActiveSlide(e.realIndex);
-  };
-
-  const TenNumber = (num: number) => (num < 10 ? `0${num}` : num);
-  return (
-    <Wrapper>
-      <Inner>
-        <Header>
-          <Title>지금 제일 잘나가요</Title>
-          <Tabs>
-            <Rankings>
-              <Rank
-                onClick={() => changeRank(0)}
-                className={rank === 0 ? "selected" : ""}
-              >
-                실시간 판매 랭킹
-              </Rank>
-              <Rank
-                onClick={() => changeRank(1)}
-                className={rank === 1 ? "selected" : ""}
-              >
-                실시간 조회 랭킹
-              </Rank>
-            </Rankings>
-            <AddView to="#">베스트 더보기</AddView>
-          </Tabs>
-        </Header>
-
-        <SlideControls>
-          <SlideBtn ref={prevRef}>
-            <AiOutlineLeft className="icon" />
-          </SlideBtn>
-          <SlideBtn ref={nextRef}>
-            <AiOutlineRight className="icon" />
-          </SlideBtn>
-        </SlideControls>
-
-        <SlideWrap>
-          <ProductList>
-            <Swiper
-              slidesPerView={6}
-              spaceBetween={8}
-              grabCursor={true}
-              loop={true}
-              pagination={{ clickable: true }}
-              navigation={{
-                prevEl: prevRef.current ? prevRef.current : undefined,
-                nextEl: nextRef.current ? nextRef.current : undefined,
-              }}
-              autoplay={{ delay: 3000 }}
-              onBeforeInit={(swiper) => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                // eslint-disable-next-line no-param-reassign
-                swiper.params.navigation.prevEl = prevRef.current;
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                // eslint-disable-next-line no-param-reassign
-                swiper.params.navigation.nextEl = nextRef.current;
-                swiper.activeIndex = activeSlide;
-                swiper.navigation.update();
-              }}
-              onSlideChange={slideChange}
-              style={{
-                position: "relative",
-                display: "flex",
-              }}
-            >
-              {RealTimeSale() &&
-                RealTimeSale().map((sale, idx) => (
-                  <Slide key={sale.id}>
-                    <Item>
-                      <ImgArea>
-                        <ImgNumber className={idx < 3 ? "best" : ""}>
-                          {TenNumber(idx + 1)}
-                        </ImgNumber>
-                        <Imgs>
-                          <Img
-                            className="front"
-                            src={BestSellingImages(sale.frontImg || "")}
-                            alt={sale.name}
-                          />
-                          <Img
-                            className="back"
-                            src={BestSellingImages(sale.backImg || "")}
-                            alt={sale.name}
-                          />
-                        </Imgs>
-                        <ImgUtil>
-                          <AiOutlineFileAdd className="icon" />
-                          <AiOutlineHeart className="icon" />
-                          <AiOutlineShoppingCart className="icon" />
-                          <AiOutlineCreditCard className="icon" />
-                        </ImgUtil>
-                      </ImgArea>
-                      <Contents>
-                        <Name>{sale.name}</Name>
-                        <Price>
-                          <NowPrice>{moneyUnit(sale.price.nowPrice)}</NowPrice>
-                          {sale.price.oriPrice && (
-                            <OriPrice>
-                              {moneyUnit(sale.price.oriPrice)}
-                            </OriPrice>
-                          )}
-                          {sale.price.disCountRate && (
-                            <DisCountRate>
-                              {sale.price.disCountRate}%
-                            </DisCountRate>
-                          )}
-                        </Price>
-                      </Contents>
-                    </Item>
-                  </Slide>
-                ))}
-            </Swiper>
-          </ProductList>
-        </SlideWrap>
-      </Inner>
-    </Wrapper>
-  );
-}
-
-export default BestSellingProduct;

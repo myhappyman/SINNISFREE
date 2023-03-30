@@ -4,6 +4,108 @@ import { BsYoutube, BsInstagram, BsTwitter } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";
 import { AwardFooterImg, FooterLogoImg } from "../../utils";
 
+function Footer() {
+  return (
+    <FooterArea>
+      <Row>
+        <FooterMenu>
+          <ul>
+            <li>서비스 이용약관</li>
+            <li>
+              <strong>개인정보처리방침</strong>
+            </li>
+            <li>영상정보처리기기</li>
+            <li>운영/관리 방침</li>
+            <li>공지사항</li>
+            <li>임직원서비스</li>
+          </ul>
+          <ul>
+            <li>
+              <BsYoutube fontSize={30} color={"#777"} />
+            </li>
+            <li>
+              <BsInstagram fontSize={30} color={"#777"} />
+            </li>
+            <li>
+              <FaFacebookF fontSize={30} color={"#777"} />
+            </li>
+            <li>
+              <BsTwitter fontSize={30} color={"#777"} />
+            </li>
+            <li>
+              <AiFillAppstore fontSize={30} color={"#777"} />
+            </li>
+          </ul>
+        </FooterMenu>
+      </Row>
+      <InfoRow>
+        <FooterBox>
+          <div>
+            <img src={FooterLogoImg()} alt="footerLogo" />
+          </div>
+          <Info>
+            <Left>
+              <p>
+                <span>
+                  주&#41;이니스프리 서울특별시 용산구 한강대로 100(한강로2가)
+                  7층 이니스프리
+                </span>
+                <span>대표이사 최민정</span>
+              </p>
+              <p className="separator">
+                <span>사업자 등록번호 106-86-68127 </span>
+                <span>통신판매신고번호 2018-서울용산-0014</span>
+                <span>
+                  제품 문의 : 080-380-0114 &nbsp;&nbsp;&nbsp;FAX 02-6040-7108
+                </span>
+              </p>
+              <p className="separator">
+                <span>이메일 주소 innisfree@innisfree.com</span>
+                <span>비즈니스제휴/입점문의 partner.biz@innisfree.com</span>
+              </p>
+              <p className="separator">
+                <span>이메일 주소 무단 수집 거부</span>
+                <span>개인정보 보호책임자 정구화</span>
+                <span>호스팅 서비스 제공자 ㈜이니스프리</span>
+              </p>
+              <p>
+                <strong>㈜토스페이먼츠의 에스크로 서비스 가입</strong>{" "}
+                <em>
+                  저희 쇼핑몰은 고객님의 안전한 거래를 위해 무통장입금 거래에
+                  대해 구매안전서비스를 적용하고 있습니다.
+                </em>
+                <br />
+                <ins>토스페이먼츠 구매안전 서비스 가입확인</ins>
+              </p>
+              <p>Copyright © 2019 Innisfree. All Rights Reserved.</p>
+              <p className="awards">
+                스마트앱어워드 2022
+                <br />
+                브랜드부문 통합대상
+              </p>
+            </Left>
+            <Right>
+              <ul>
+                <li className="title">고객 서비스 센터 이용안내</li>
+                <li className="tel">
+                  <strong>080-380-0114</strong> (수신자 요금 부담)
+                </li>
+                <li>운영시간 AM 09:00~PM 18:00(주말 및 공휴일 휴무)</li>
+                <li>점심시간 PM 12:00~PM13:00</li>
+                <li className="callWrite">
+                  <span>1:1상담작성&gt;</span>
+                </li>
+              </ul>
+            </Right>
+          </Info>
+        </FooterBox>
+      </InfoRow>
+    </FooterArea>
+  );
+}
+
+export default Footer;
+
 const FooterArea = styled.footer`
   border-top: 1px solid #dbdbdb;
   padding-bottom: 8rem;
@@ -138,105 +240,3 @@ const Right = styled.div`
     }
   }
 `;
-
-function Footer() {
-  return (
-    <FooterArea>
-      <Row>
-        <FooterMenu>
-          <ul>
-            <li>서비스 이용약관</li>
-            <li>
-              <strong>개인정보처리방침</strong>
-            </li>
-            <li>영상정보처리기기</li>
-            <li>운영/관리 방침</li>
-            <li>공지사항</li>
-            <li>임직원서비스</li>
-          </ul>
-          <ul>
-            <li>
-              <BsYoutube fontSize={30} color={"#777"} />
-            </li>
-            <li>
-              <BsInstagram fontSize={30} color={"#777"} />
-            </li>
-            <li>
-              <FaFacebookF fontSize={30} color={"#777"} />
-            </li>
-            <li>
-              <BsTwitter fontSize={30} color={"#777"} />
-            </li>
-            <li>
-              <AiFillAppstore fontSize={30} color={"#777"} />
-            </li>
-          </ul>
-        </FooterMenu>
-      </Row>
-      <InfoRow>
-        <FooterBox>
-          <div>
-            <img src={FooterLogoImg()} alt="footerLogo" />
-          </div>
-          <Info>
-            <Left>
-              <p>
-                <span>
-                  주&#41;이니스프리 서울특별시 용산구 한강대로 100(한강로2가)
-                  7층 이니스프리
-                </span>
-                <span>대표이사 최민정</span>
-              </p>
-              <p className="separator">
-                <span>사업자 등록번호 106-86-68127 </span>
-                <span>통신판매신고번호 2018-서울용산-0014</span>
-                <span>
-                  제품 문의 : 080-380-0114 &nbsp;&nbsp;&nbsp;FAX 02-6040-7108
-                </span>
-              </p>
-              <p className="separator">
-                <span>이메일 주소 innisfree@innisfree.com</span>
-                <span>비즈니스제휴/입점문의 partner.biz@innisfree.com</span>
-              </p>
-              <p className="separator">
-                <span>이메일 주소 무단 수집 거부</span>
-                <span>개인정보 보호책임자 정구화</span>
-                <span>호스팅 서비스 제공자 ㈜이니스프리</span>
-              </p>
-              <p>
-                <strong>㈜토스페이먼츠의 에스크로 서비스 가입</strong>{" "}
-                <em>
-                  저희 쇼핑몰은 고객님의 안전한 거래를 위해 무통장입금 거래에
-                  대해 구매안전서비스를 적용하고 있습니다.
-                </em>
-                <br />
-                <ins>토스페이먼츠 구매안전 서비스 가입확인</ins>
-              </p>
-              <p>Copyright © 2019 Innisfree. All Rights Reserved.</p>
-              <p className="awards">
-                스마트앱어워드 2022
-                <br />
-                브랜드부문 통합대상
-              </p>
-            </Left>
-            <Right>
-              <ul>
-                <li className="title">고객 서비스 센터 이용안내</li>
-                <li className="tel">
-                  <strong>080-380-0114</strong> (수신자 요금 부담)
-                </li>
-                <li>운영시간 AM 09:00~PM 18:00(주말 및 공휴일 휴무)</li>
-                <li>점심시간 PM 12:00~PM13:00</li>
-                <li className="callWrite">
-                  <span>1:1상담작성&gt;</span>
-                </li>
-              </ul>
-            </Right>
-          </Info>
-        </FooterBox>
-      </InfoRow>
-    </FooterArea>
-  );
-}
-
-export default Footer;

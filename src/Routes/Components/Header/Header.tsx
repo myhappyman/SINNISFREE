@@ -1,9 +1,50 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
-
 import { Link } from "react-router-dom";
 import SearchForm from "./SearchForm";
 import Category from "./Category";
+
+function Header() {
+  return (
+    <Nav>
+      <Row bgColor={"#000"} color={"#fff"}>
+        <HeaderToolbar>크리스마스 12종 쿠폰팩 다운&gt;</HeaderToolbar>
+      </Row>
+      <Row bgColor={"#f3f1f2"} color={"#000"}>
+        <HeaderArea padding={"0"}>
+          <UtilBar>
+            <UtilMenu>
+              <li>
+                <Link to="#">고객센터</Link>
+              </li>
+              <li className="end">
+                <Link to="#">About US</Link>
+              </li>
+              <li>
+                <Link to="/login">로그인</Link>
+              </li>
+              <li>
+                <Link to="#">회원가입</Link>
+              </li>
+              <li>
+                <Link to="#">마이페이지</Link>
+              </li>
+              <li>
+                장바구니 <em>0</em>
+              </li>
+            </UtilMenu>
+          </UtilBar>
+        </HeaderArea>
+      </Row>
+      <Row bgColor={"#fff"} color={"#000"}>
+        <SearchForm />
+      </Row>
+      <Category />
+    </Nav>
+  );
+}
+
+export default Header;
 
 const Nav = styled(motion.div)`
   display: flex;
@@ -73,45 +114,3 @@ const UtilMenu = styled.ul`
     background-color: #777;
   }
 `;
-
-function Header() {
-  return (
-    <Nav>
-      <Row bgColor={"#000"} color={"#fff"}>
-        <HeaderToolbar>크리스마스 12종 쿠폰팩 다운&gt;</HeaderToolbar>
-      </Row>
-      <Row bgColor={"#f3f1f2"} color={"#000"}>
-        <HeaderArea padding={"0"}>
-          <UtilBar>
-            <UtilMenu>
-              <li>
-                <Link to="#">고객센터</Link>
-              </li>
-              <li className="end">
-                <Link to="#">About US</Link>
-              </li>
-              <li>
-                <Link to="/login">로그인</Link>
-              </li>
-              <li>
-                <Link to="#">회원가입</Link>
-              </li>
-              <li>
-                <Link to="#">마이페이지</Link>
-              </li>
-              <li>
-                장바구니 <em>0</em>
-              </li>
-            </UtilMenu>
-          </UtilBar>
-        </HeaderArea>
-      </Row>
-      <Row bgColor={"#fff"} color={"#000"}>
-        <SearchForm />
-      </Row>
-      <Category />
-    </Nav>
-  );
-}
-
-export default Header;
